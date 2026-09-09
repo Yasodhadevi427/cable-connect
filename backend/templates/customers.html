@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customers - CableConnect</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Main */
+        .container {
+            width: 94%;
+            max-width: 1250px;
+            margin: 40px auto;
+        }
+
+        /* Top section */
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            color: #1e293b;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-top: 6px;
+        }
+
+        /* Add button */
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Card */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        thead {
+            background: #f1f5f9;
+        }
+
+        th {
+            padding: 14px;
+            text-align: left;
+            color: #334155;
+            font-size: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Status */
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Amount */
+        .amount {
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        /* Empty state */
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        .empty h2 {
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .header-text {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .title {
+                font-size: 25px;
+            }
+
+            .add-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .table-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+
+        <div class="logo">
+            CableConnect
+        </div>
+
+        <div class="header-text">
+            Operator Management System
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+    <main class="container">
+
+        <!-- Page heading -->
+        <div class="top-section">
+
+            <div>
+
+                <h1 class="title">
+                    Customers
+                </h1>
+
+                <p class="subtitle">
+                    Manage your cable and broadband customers
+                </p>
+
+            </div>
+
+
+            <a
+                href="/add-customer"
+                class="add-btn"
+            >
+                + Add Customer
+            </a>
+
+        </div>
+
+
+        <!-- Customer table -->
+        <div class="table-card">
+
+            {% if customers %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Mobile</th>
+                        <th>Address</th>
+                        <th>Monthly Amount</th>
+                        <th>Start Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for customer in customers %}
+
+                    <tr>
+
+                        <td>
+                            {{ customer.id }}
+                        </td>
+
+
+                        <td>
+                            <strong>
+                                {{ customer.name }}
+                            </strong>
+                        </td>
+
+
+                        <td>
+                            {{ customer.mobile }}
+                        </td>
+
+
+                        <td>
+                            {{ customer.address }}
+                        </td>
+
+
+                        <td class="amount">
+                            ₹{{ customer.monthly_amount }}
+                        </td>
+
+
+                        <td>
+                            {{ customer.connection_start_date }}
+                        </td>
+
+
+                        <td>
+
+                            {% if customer.status == "Active" %}
+
+                                <span class="status active">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status inactive">
+                                    {{ customer.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+            <!-- No customers -->
+            <div class="empty">
+
+                <h2>
+                    No Customers Yet
+                </h2>
+
+                <p>
+                    Start by adding your first customer.
+                </p>
+
+                <a
+                    href="/add-customer"
+                    class="add-btn"
+                >
+                    + Add First Customer
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 CableConnect
+        </div>
+
+    </main>
+
+</body>
+
+</html>
