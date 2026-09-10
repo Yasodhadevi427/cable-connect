@@ -25,7 +25,6 @@
             background: #1e3a8a;
             color: white;
             padding: 20px 40px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -41,10 +40,10 @@
             opacity: 0.9;
         }
 
-        /* Main */
+        /* Main container */
         .container {
             width: 94%;
-            max-width: 1250px;
+            max-width: 1200px;
             margin: 40px auto;
         }
 
@@ -58,7 +57,7 @@
 
         .title {
             color: #1e293b;
-            font-size: 30px;
+            font-size: 28px;
         }
 
         .subtitle {
@@ -80,49 +79,50 @@
             background: #1d4ed8;
         }
 
-        /* Card */
+        /* Table card */
         .table-card {
             background: white;
             border-radius: 12px;
-            padding: 25px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             overflow-x: auto;
         }
 
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
-        }
-
-        thead {
-            background: #f1f5f9;
+            min-width: 950px;
         }
 
         th {
-            padding: 14px;
-            text-align: left;
+            background: #f8fafc;
             color: #334155;
+            text-align: left;
+            padding: 15px;
             font-size: 14px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         td {
-            padding: 14px;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 15px;
             color: #475569;
+            border-bottom: 1px solid #e2e8f0;
             font-size: 14px;
         }
 
-        tbody tr:hover {
+        tr:hover {
             background: #f8fafc;
+        }
+
+        /* STB number */
+        .stb-number {
+            font-weight: bold;
+            color: #1e3a8a;
         }
 
         /* Status */
         .status {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
@@ -138,26 +138,11 @@
             color: #991b1b;
         }
 
-        /* Amount */
-        .amount {
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-
         /* Empty state */
         .empty {
             text-align: center;
             padding: 50px 20px;
             color: #64748b;
-        }
-
-        .empty h2 {
-            color: #334155;
-            margin-bottom: 10px;
-        }
-
-        .empty p {
-            margin-bottom: 20px;
         }
 
         /* Footer */
@@ -190,22 +175,13 @@
                 gap: 15px;
             }
 
-            .title {
-                font-size: 25px;
-            }
-
             .add-btn {
                 width: 100%;
                 text-align: center;
             }
-
-            .table-card {
-                padding: 15px;
-            }
         }
     </style>
 </head>
-
 
 <body>
 
@@ -226,33 +202,27 @@
     <!-- Main -->
     <main class="container">
 
-        <!-- Page heading -->
+        <!-- Title -->
         <div class="top-section">
 
             <div>
-
                 <h1 class="title">
                     Customers
                 </h1>
 
                 <p class="subtitle">
-                    Manage your cable and broadband customers
+                    Manage your cable customers and STB connections.
                 </p>
-
             </div>
 
-
-            <a
-                href="/add-customer"
-                class="add-btn"
-            >
+            <a href="/add-customer" class="add-btn">
                 + Add Customer
             </a>
 
         </div>
 
 
-        <!-- Customer table -->
+        <!-- Customer Table -->
         <div class="table-card">
 
             {% if customers %}
@@ -266,6 +236,7 @@
                         <th>Customer</th>
                         <th>Mobile</th>
                         <th>Address</th>
+                        <th>STB Number</th>
                         <th>Monthly Amount</th>
                         <th>Start Date</th>
                         <th>Status</th>
@@ -284,47 +255,45 @@
                             {{ customer.id }}
                         </td>
 
-
                         <td>
-                            <strong>
-                                {{ customer.name }}
-                            </strong>
+                            {{ customer.name }}
                         </td>
-
 
                         <td>
                             {{ customer.mobile }}
                         </td>
 
-
                         <td>
                             {{ customer.address }}
                         </td>
 
-
-                        <td class="amount">
-                            ₹{{ customer.monthly_amount }}
+                        <td>
+                            <span class="stb-number">
+                                {{ customer.stb_number }}
+                            </span>
                         </td>
 
+                        <td>
+                            ₹{{ customer.monthly_amount }}
+                        </td>
 
                         <td>
                             {{ customer.connection_start_date }}
                         </td>
 
-
                         <td>
 
                             {% if customer.status == "Active" %}
 
-                                <span class="status active">
-                                    Active
-                                </span>
+                            <span class="status active">
+                                Active
+                            </span>
 
                             {% else %}
 
-                                <span class="status inactive">
-                                    {{ customer.status }}
-                                </span>
+                            <span class="status inactive">
+                                Inactive
+                            </span>
 
                             {% endif %}
 
@@ -338,26 +307,17 @@
 
             </table>
 
-
             {% else %}
 
-            <!-- No customers -->
             <div class="empty">
 
-                <h2>
-                    No Customers Yet
-                </h2>
+                <h3>
+                    No customers found
+                </h3>
 
                 <p>
-                    Start by adding your first customer.
+                    Add your first customer to get started.
                 </p>
-
-                <a
-                    href="/add-customer"
-                    class="add-btn"
-                >
-                    + Add First Customer
-                </a>
 
             </div>
 
@@ -366,6 +326,7 @@
         </div>
 
 
+        <!-- Footer -->
         <div class="footer">
             © 2026 CableConnect
         </div>
