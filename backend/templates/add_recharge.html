@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add TV Recharge - CableConnect</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Main */
+
+        .container {
+            width: 92%;
+            max-width: 700px;
+            margin: 40px auto;
+        }
+
+        /* Page Header */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .title {
+            color: #1e293b;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-top: 6px;
+        }
+
+        /* Card */
+
+        .card {
+            background: white;
+            padding: 30px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* STB Information */
+
+        .stb-info {
+            margin-top: 8px;
+
+            padding: 10px 12px;
+
+            background: #eff6ff;
+
+            border-radius: 6px;
+
+            color: #1e40af;
+
+            font-size: 13px;
+        }
+
+        /* Buttons */
+
+        .button-group {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-gtpl {
+            background: #16a34a;
+
+            color: white;
+
+            width: 100%;
+
+            margin-top: 15px;
+        }
+
+        .btn-gtpl:hover {
+            background: #15803d;
+        }
+
+        /* Information */
+
+        .info-box {
+            margin-top: 25px;
+
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border-left: 4px solid #2563eb;
+
+            border-radius: 6px;
+        }
+
+        .info-box h3 {
+            color: #334155;
+
+            font-size: 15px;
+
+            margin-bottom: 6px;
+        }
+
+        .info-box p {
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .header-text {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+
+                margin: 25px auto;
+            }
+
+            .title {
+                font-size: 25px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <div class="logo">
+            CableConnect
+        </div>
+
+        <div class="header-text">
+            Operator Management System
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+
+    <main class="container">
+
+
+        <!-- Page Header -->
+
+        <div class="page-header">
+
+            <h1 class="title">
+                Add TV Recharge
+            </h1>
+
+            <p class="subtitle">
+                Record a recharge for a customer STB
+            </p>
+
+        </div>
+
+
+        <!-- Recharge Card -->
+
+        <div class="card">
+
+
+            <form method="POST">
+
+
+                <!-- Customer -->
+
+                <div class="form-group">
+
+                    <label for="customer_id">
+                        Customer
+                    </label>
+
+                    <select
+                        name="customer_id"
+                        id="customer_id"
+                        required
+                    >
+
+                        <option value="">
+                            Select Customer
+                        </option>
+
+                        {% for customer in customers %}
+
+                        <option value="{{ customer.id }}">
+
+                            {{ customer.name }} -
+                            STB: {{ customer.stb_number }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Recharge Amount -->
+
+                <div class="form-group">
+
+                    <label for="amount">
+                        Recharge Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        id="amount"
+                        placeholder="Enter recharge amount"
+                        step="0.01"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Recharge Date -->
+
+                <div class="form-group">
+
+                    <label for="recharge_date">
+                        Recharge Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="recharge_date"
+                        id="recharge_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Expiry Date -->
+
+                <div class="form-group">
+
+                    <label for="expiry_date">
+                        Expiry Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="expiry_date"
+                        id="expiry_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- GTPL -->
+
+                <a
+                    href="https://www.gtpl.net/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-gtpl"
+                >
+                    Open GTPL Portal
+                </a>
+
+
+                <!-- Buttons -->
+
+                <div class="button-group">
+
+                    <a
+                        href="/stbs"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Save Recharge
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <!-- Information -->
+
+            <div class="info-box">
+
+                <h3>
+                    Recharge Process
+                </h3>
+
+                <p>
+                    First open the authorized GTPL portal and complete
+                    the actual recharge. Then enter the recharge details
+                    above and click "Save Recharge" to maintain the record
+                    in CableConnect.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div class="footer">
+
+            © 2026 CableConnect · Operator Management System
+
+        </div>
+
+
+    </main>
+
+
+    <!-- Default Recharge Date -->
+
+    <script>
+
+        const rechargeDate = document.getElementById("recharge_date");
+
+        const today = new Date();
+
+        const year = today.getFullYear();
+
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+
+        const day = String(today.getDate()).padStart(2, "0");
+
+        rechargeDate.value = `${year}-${month}-${day}`;
+
+    </script>
+
+
+</body>
+
+</html>

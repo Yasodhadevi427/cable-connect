@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STB Details - CableConnect</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Main */
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .title {
+            color: #1e293b;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        /* Card */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #334155;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td {
+            padding: 15px;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* STB Number */
+        .stb-number {
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        /* Status */
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Empty */
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Mobile */
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .header-text {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+
+        <div class="logo">
+            CableConnect
+        </div>
+
+        <div class="header-text">
+            Operator Management System
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+    <main class="container">
+
+        <h1 class="title">
+            STB Details
+        </h1>
+
+        <p class="subtitle">
+            View all Set-Top Box connections and their customers.
+        </p>
+
+
+        <!-- STB Table -->
+        <div class="table-card">
+
+            {% if stbs %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Mobile</th>
+                        <th>STB Number</th>
+                        <th>Status</th>
+                        <th>Installation Date</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for stb in stbs %}
+
+                    <tr>
+
+                        <td>
+                            {{ stb.id }}
+                        </td>
+
+                        <td>
+                            {{ stb.customer_name }}
+                        </td>
+
+                        <td>
+                            {{ stb.mobile }}
+                        </td>
+
+                        <td>
+                            <span class="stb-number">
+                                {{ stb.stb_number }}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            {% if stb.status == "Active" %}
+
+                            <span class="status active">
+                                Active
+                            </span>
+
+                            {% else %}
+
+                            <span class="status inactive">
+                                Inactive
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ stb.installation_date }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+
+                <h3>
+                    No STB connections found
+                </h3>
+
+                <p>
+                    Add a customer with an STB number to see it here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 CableConnect
+        </div>
+
+    </main>
+
+</body>
+
+</html>
