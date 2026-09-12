@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Collect Payment - CableConnect</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1f2937;
+        }
+
+
+        .container {
+
+            max-width: 800px;
+
+            margin: auto;
+
+            padding: 30px;
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .subtitle {
+
+            margin-top: 6px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .btn {
+
+            display: inline-block;
+
+            padding: 10px 16px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .back-btn {
+
+            background: #e5e7eb;
+
+            color: #111827;
+        }
+
+
+        /* ==================================================
+           CARD
+        ================================================== */
+
+        .card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0, 0, 0, 0.06);
+        }
+
+
+        /* ==================================================
+           ERROR
+        ================================================== */
+
+        .error {
+
+            background: #fee2e2;
+
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 14px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           FORM
+        ================================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: 600;
+
+            font-size: 14px;
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            background: white;
+
+            outline: none;
+        }
+
+
+        input:focus,
+        select:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+
+        /* ==================================================
+           CUSTOMER INFORMATION
+        ================================================== */
+
+        .customer-info {
+
+            display: none;
+
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            padding: 18px;
+
+            border-radius: 9px;
+
+            margin-top: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .customer-info.show {
+
+            display: block;
+        }
+
+
+        .customer-name {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 7px 0;
+        }
+
+
+        .info-label {
+
+            color: #6b7280;
+        }
+
+
+        .info-value {
+
+            font-weight: 600;
+
+            text-align: right;
+        }
+
+
+        /* ==================================================
+           AMOUNT
+        ================================================== */
+
+        .amount-box {
+
+            background: #f0fdf4;
+
+            border: 1px solid #bbf7d0;
+
+            border-radius: 9px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .amount-label {
+
+            color: #166534;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .amount-value {
+
+            color: #166534;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==================================================
+           BILLING
+        ================================================== */
+
+        .billing-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+        }
+
+
+        /* ==================================================
+           SUBMIT
+        ================================================== */
+
+        .submit-btn {
+
+            width: 100%;
+
+            border: none;
+
+            background: #16a34a;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+        }
+
+
+        .submit-btn:hover {
+
+            background: #15803d;
+        }
+
+
+        /* ==================================================
+           NOTE
+        ================================================== */
+
+        .note {
+
+            background: #f9fafb;
+
+            border-left: 4px solid #2563eb;
+
+            padding: 12px;
+
+            margin-top: 20px;
+
+            color: #4b5563;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                padding: 15px;
+            }
+
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .billing-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ==================================================
+         HEADER
+    ================================================== -->
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                💰 Collect Payment
+            </h1>
+
+            <div class="subtitle">
+                Record monthly cable TV payment
+            </div>
+
+        </div>
+
+
+        <a
+            href="/customers"
+            class="btn back-btn"
+        >
+            ← Customers
+        </a>
+
+    </div>
+
+
+
+    <!-- ==================================================
+         CARD
+    ================================================== -->
+
+    <div class="card">
+
+
+        <!-- ==================================================
+             Error Message
+        ================================================== -->
+
+        {% if error_message %}
+
+        <div class="error">
+
+            ⚠️ {{ error_message }}
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- ==================================================
+             Payment Form
+        ================================================== -->
+
+        <form
+            method="POST"
+            id="paymentForm"
+        >
+
+
+            <!-- Customer -->
+
+            <div class="form-group">
+
+                <label for="customer_id">
+                    Select Customer
+                </label>
+
+
+                <select
+                    name="customer_id"
+                    id="customer_id"
+                    required
+                >
+
+                    <option value="">
+                        -- Select Customer --
+                    </option>
+
+
+                    {% for customer in customers %}
+
+                    <option
+                        value="{{ customer.id }}"
+
+                        data-name="{{ customer.name }}"
+
+                        data-mobile="{{ customer.mobile }}"
+
+                        data-monthly="{{ customer.monthly_amount }}"
+
+                        {% if selected_customer|string == customer.id|string %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ customer.name }}
+                        - {{ customer.mobile }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+
+                <!-- Customer Information -->
+
+                <div
+                    id="customerInfo"
+                    class="customer-info"
+                >
+
+                    <div
+                        id="customerName"
+                        class="customer-name"
+                    >
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            📱 Mobile
+                        </span>
+
+                        <span
+                            id="customerMobile"
+                            class="info-value"
+                        >
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            💰 Monthly Amount
+                        </span>
+
+                        <span
+                            id="customerMonthly"
+                            class="info-value"
+                        >
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 Amount
+            ================================================== -->
+
+            <div class="amount-box">
+
+                <div class="amount-label">
+                    Payment Amount
+                </div>
+
+                <div
+                    id="amountDisplay"
+                    class="amount-value"
+                >
+                    ₹0.00
+                </div>
+
+            </div>
+
+
+            <!-- Hidden / Editable Amount -->
+
+            <div class="form-group">
+
+                <label for="amount">
+                    Amount Collected
+                </label>
+
+                <input
+                    type="number"
+                    name="amount"
+                    id="amount"
+                    min="1"
+                    step="0.01"
+                    placeholder="Enter amount"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 Payment Date
+            ================================================== -->
+
+            <div class="form-group">
+
+                <label for="payment_date">
+                    Payment Date
+                </label>
+
+                <input
+                    type="date"
+                    name="payment_date"
+                    id="payment_date"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 Billing Month + Year
+            ================================================== -->
+
+            <div class="billing-grid">
+
+
+                <div class="form-group">
+
+                    <label for="billing_month">
+                        Billing Month
+                    </label>
+
+
+                    <select
+                        name="billing_month"
+                        id="billing_month"
+                        required
+                    >
+
+                        <option value="1">
+                            January
+                        </option>
+
+                        <option value="2">
+                            February
+                        </option>
+
+                        <option value="3">
+                            March
+                        </option>
+
+                        <option value="4">
+                            April
+                        </option>
+
+                        <option value="5">
+                            May
+                        </option>
+
+                        <option value="6">
+                            June
+                        </option>
+
+                        <option value="7">
+                            July
+                        </option>
+
+                        <option value="8">
+                            August
+                        </option>
+
+                        <option value="9">
+                            September
+                        </option>
+
+                        <option value="10">
+                            October
+                        </option>
+
+                        <option value="11">
+                            November
+                        </option>
+
+                        <option value="12">
+                            December
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="billing_year">
+                        Billing Year
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="billing_year"
+                        id="billing_year"
+                        min="2020"
+                        max="2100"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 Submit
+            ================================================== -->
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                ✓ Collect Payment
+            </button>
+
+
+        </form>
+
+
+
+        <!-- ==================================================
+             Note
+        ================================================== -->
+
+        <div class="note">
+
+            <strong>Payment rule:</strong>
+
+            One paid payment can be recorded for each
+            customer for each billing month and year.
+
+            This prevents accidental duplicate monthly
+            payments.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+    const customerSelect =
+        document.getElementById("customer_id");
+
+
+    const customerInfo =
+        document.getElementById("customerInfo");
+
+
+    const customerName =
+        document.getElementById("customerName");
+
+
+    const customerMobile =
+        document.getElementById("customerMobile");
+
+
+    const customerMonthly =
+        document.getElementById("customerMonthly");
+
+
+    const amountInput =
+        document.getElementById("amount");
+
+
+    const amountDisplay =
+        document.getElementById("amountDisplay");
+
+
+    const paymentDate =
+        document.getElementById("payment_date");
+
+
+    const billingMonth =
+        document.getElementById("billing_month");
+
+
+    const billingYear =
+        document.getElementById("billing_year");
+
+
+
+    /* ==================================================
+       Today's Date
+    ================================================== */
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    paymentDate.value = today;
+
+
+
+    /* ==================================================
+       Current Month
+    ================================================== */
+
+    const currentDate =
+        new Date();
+
+
+    const currentMonth =
+        currentDate.getMonth() + 1;
+
+
+    const currentYear =
+        currentDate.getFullYear();
+
+
+    billingMonth.value =
+        currentMonth;
+
+
+    billingYear.value =
+        currentYear;
+
+
+
+    /* ==================================================
+       Update Amount Display
+    ================================================== */
+
+    function updateAmountDisplay() {
+
+        const amount =
+            parseFloat(
+                amountInput.value
+            );
+
+
+        if (
+            Number.isFinite(amount) &&
+            amount >= 0
+        ) {
+
+            amountDisplay.textContent =
+                "₹" + amount.toFixed(2);
+
+        } else {
+
+            amountDisplay.textContent =
+                "₹0.00";
+        }
+
+    }
+
+
+
+    /* ==================================================
+       Customer Selection
+    ================================================== */
+
+    function updateCustomer() {
+
+
+        const selectedOption =
+            customerSelect.options[
+                customerSelect.selectedIndex
+            ];
+
+
+        if (
+            !selectedOption ||
+            !selectedOption.value
+        ) {
+
+            customerInfo.classList.remove(
+                "show"
+            );
+
+            amountInput.value = "";
+
+            updateAmountDisplay();
+
+            return;
+        }
+
+
+        const name =
+            selectedOption.dataset.name;
+
+
+        const mobile =
+            selectedOption.dataset.mobile;
+
+
+        const monthly =
+            selectedOption.dataset.monthly;
+
+
+        customerName.textContent =
+            name;
+
+
+        customerMobile.textContent =
+            mobile;
+
+
+        customerMonthly.textContent =
+            "₹" + monthly;
+
+
+        customerInfo.classList.add(
+            "show"
+        );
+
+
+        /* Automatically fill monthly amount */
+
+        amountInput.value =
+            monthly;
+
+
+        updateAmountDisplay();
+
+    }
+
+
+
+    /* ==================================================
+       Events
+    ================================================== */
+
+    customerSelect.addEventListener(
+        "change",
+        updateCustomer
+    );
+
+
+    amountInput.addEventListener(
+        "input",
+        updateAmountDisplay
+    );
+
+
+
+    /* ==================================================
+       Initialize
+    ================================================== */
+
+    updateCustomer();
+
+    updateAmountDisplay();
+
+
+</script>
+
+
+</body>
+
+</html>

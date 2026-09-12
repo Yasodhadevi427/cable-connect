@@ -5,274 +5,1098 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Add TV Recharge - CableConnect</title>
+    <title>TV Recharge | CableConnect</title>
+
 
     <style>
 
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
 
         body {
-            font-family: Arial, sans-serif;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
             background: #f4f7fb;
+
+            color: #172033;
+
             min-height: 100vh;
+
+            transition:
+                background 0.3s ease,
+                color 0.3s ease;
         }
 
-        /* Header */
 
-        .header {
-            background: #1e3a8a;
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            background: #111827;
+
             color: white;
-            padding: 20px 40px;
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 25px 16px;
+
+            z-index: 1000;
+
+            overflow-y: auto;
         }
+
 
         .logo {
+
             font-size: 24px;
-            font-weight: bold;
+
+            font-weight: 800;
+
+            padding: 0 15px 30px;
         }
 
-        .header-text {
-            font-size: 14px;
-            opacity: 0.9;
+
+        .logo span {
+            color: #1683ff;
         }
 
-        /* Main */
 
-        .container {
-            width: 92%;
-            max-width: 700px;
-            margin: 40px auto;
+        .menu-title {
+
+            color: #7f8aa3;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            margin:
+                25px 15px 10px;
+
+            text-transform: uppercase;
         }
 
-        /* Page Header */
 
-        .page-header {
-            margin-bottom: 25px;
-        }
+        .nav-link {
 
-        .title {
-            color: #1e293b;
-            font-size: 30px;
-        }
+            display: flex;
 
-        .subtitle {
-            color: #64748b;
-            margin-top: 6px;
-        }
+            align-items: center;
 
-        /* Card */
+            gap: 11px;
 
-        .card {
-            background: white;
-            padding: 30px;
+            color: #cbd5e1;
 
-            border-radius: 12px;
-
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Form */
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            color: #334155;
-
-            font-size: 14px;
-
-            font-weight: bold;
-        }
-
-        input,
-        select {
-            width: 100%;
+            text-decoration: none;
 
             padding: 12px 14px;
 
-            border: 1px solid #cbd5e1;
+            border-radius: 10px;
 
-            border-radius: 7px;
+            margin-bottom: 5px;
 
             font-size: 14px;
 
-            outline: none;
+            font-weight: 600;
+
+            transition: all 0.2s ease;
         }
 
-        input:focus,
-        select:focus {
-            border-color: #2563eb;
 
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        .nav-link:hover {
+
+            background: #1f2937;
+
+            color: white;
+
+            transform:
+                translateX(3px);
         }
 
-        /* STB Information */
 
-        .stb-info {
-            margin-top: 8px;
+        .nav-link.active {
 
-            padding: 10px 12px;
+            background: #1683ff;
 
-            background: #eff6ff;
+            color: white;
+        }
 
-            border-radius: 6px;
 
-            color: #1e40af;
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 30px;
+        }
+
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .page-title {
+
+            font-size: 28px;
+
+            font-weight: 800;
+        }
+
+
+        .page-subtitle {
+
+            margin-top: 5px;
+
+            color: #718096;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           TOP ACTIONS
+        ===================================================== */
+
+        .top-actions {
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .icon-btn {
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: white;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.06);
+
+            transition: 0.2s;
+        }
+
+
+        .icon-btn:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =====================================================
+           MAIN CARD
+        ===================================================== */
+
+        .card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(15, 23, 42, 0.07);
+
+            max-width: 1100px;
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           PROVIDER BOX
+        ===================================================== */
+
+        .provider-box {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff8ff,
+                    #f7fbff
+                );
+
+            border: 1px solid #cfe7ff;
+
+            margin-bottom: 30px;
+        }
+
+
+        .provider-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .provider-icon {
+
+            width: 52px;
+            height: 52px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #dff2ff;
+
+            font-size: 25px;
+        }
+
+
+        .provider-title {
+
+            font-weight: 800;
+
+            font-size: 16px;
+
+            color: #0f4f9c;
+
+            margin-bottom: 4px;
+        }
+
+
+        .provider-text {
+
+            color: #667085;
 
             font-size: 13px;
         }
 
-        /* Buttons */
 
-        .button-group {
-            display: flex;
+        /* =====================================================
+           GTPL GREEN BUTTON
+        ===================================================== */
 
-            gap: 12px;
+        .gtpl-btn {
 
-            margin-top: 25px;
-        }
+            display: inline-flex;
 
-        .btn {
-            display: inline-block;
+            align-items: center;
+
+            justify-content: center;
 
             padding: 12px 20px;
 
-            border: none;
+            border-radius: 10px;
 
-            border-radius: 7px;
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            text-decoration: none;
-
-            cursor: pointer;
-
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: #2563eb;
-
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary {
-            background: #e2e8f0;
-
-            color: #334155;
-        }
-
-        .btn-secondary:hover {
-            background: #cbd5e1;
-        }
-
-        .btn-gtpl {
             background: #16a34a;
 
             color: white;
 
-            width: 100%;
+            text-decoration: none;
 
-            margin-top: 15px;
+            font-size: 14px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
         }
 
-        .btn-gtpl:hover {
+
+        .gtpl-btn:hover {
+
             background: #15803d;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 6px 15px
+                rgba(22, 163, 74, 0.25);
         }
 
-        /* Information */
 
-        .info-box {
-            margin-top: 25px;
+        /* =====================================================
+           FORM GRID
+        ===================================================== */
 
-            padding: 15px;
+        .form-grid {
 
-            background: #f8fafc;
+            display: grid;
 
-            border-left: 4px solid #2563eb;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
 
-            border-radius: 6px;
+            gap: 22px;
         }
 
-        .info-box h3 {
-            color: #334155;
 
-            font-size: 15px;
+        .form-group {
 
-            margin-bottom: 6px;
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
         }
 
-        .info-box p {
-            color: #64748b;
+
+        .full-width {
+
+            grid-column:
+                1 / -1;
+        }
+
+
+        label {
 
             font-size: 13px;
 
-            line-height: 1.5;
+            font-weight: 700;
+
+            color: #344054;
         }
 
-        /* Footer */
 
-        .footer {
-            text-align: center;
+        .required {
 
-            margin-top: 30px;
+            color: #ef4444;
+        }
 
-            color: #64748b;
+
+        input,
+        select {
+
+            width: 100%;
+
+            height: 48px;
+
+            border:
+                1px solid #d9e0ea;
+
+            border-radius: 11px;
+
+            padding:
+                0 14px;
+
+            background: white;
+
+            color: #172033;
 
             font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
         }
 
-        /* Mobile */
 
-        @media (max-width: 650px) {
+        input:focus,
+        select:focus {
 
-            .header {
-                padding: 18px 20px;
+            border-color: #1683ff;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(22, 131, 255, 0.10);
+        }
+
+
+        input[readonly] {
+
+            background: #f8fafc;
+
+            color: #475467;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           CUSTOMER SUMMARY
+        ===================================================== */
+
+        .customer-summary {
+
+            display: none;
+
+            grid-column:
+                1 / -1;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: #f8fbff;
+
+            border:
+                1px solid #dcecff;
+
+            animation:
+                slideDown 0.25s ease;
+        }
+
+
+        .customer-summary.show {
+
+            display: block;
+        }
+
+
+        @keyframes slideDown {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-5px);
             }
 
-            .header-text {
-                display: none;
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .summary-title {
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            color: #1555a6;
+
+            margin-bottom: 14px;
+        }
+
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+
+        .summary-item {
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            border:
+                1px solid #e6edf5;
+        }
+
+
+        .summary-label {
+
+            display: block;
+
+            color: #7a8799;
+
+            font-size: 11px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .summary-value {
+
+            font-weight: 800;
+
+            font-size: 14px;
+
+            color: #172033;
+        }
+
+
+        /* =====================================================
+           AMOUNT
+        ===================================================== */
+
+        .amount-wrapper {
+
+            position: relative;
+        }
+
+
+        .rupee-symbol {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            font-weight: 700;
+
+            color: #667085;
+
+            pointer-events: none;
+        }
+
+
+        .amount-input {
+
+            padding-left: 32px;
+        }
+
+
+        /* =====================================================
+           INFO BOX
+        ===================================================== */
+
+        .info-box {
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                17px 18px;
+
+            border-left:
+                4px solid #1683ff;
+
+            background: #f4f9ff;
+
+            border-radius: 10px;
+
+            color: #526173;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .info-box strong {
+
+            color: #1555a6;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .form-actions {
+
+            grid-column:
+                1 / -1;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 8px;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid #edf0f4;
+        }
+
+
+        .btn {
+
+            height: 48px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding:
+                0 22px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .btn-secondary {
+
+            background: #eef2f6;
+
+            color: #475467;
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #e2e8f0;
+        }
+
+
+        .btn-primary {
+
+            background: #1683ff;
+
+            color: white;
+
+            min-width: 160px;
+        }
+
+
+        .btn-primary:hover {
+
+            background: #086edb;
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 7px 18px
+                rgba(22, 131, 255, 0.25);
+        }
+
+
+        .btn-primary:disabled {
+
+            opacity: 0.7;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =====================================================
+           VALIDATION
+        ===================================================== */
+
+        .error-message {
+
+            display: none;
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                13px 15px;
+
+            background: #fff1f2;
+
+            border:
+                1px solid #fecdd3;
+
+            border-radius: 10px;
+
+            color: #be123c;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .error-message.show {
+
+            display: block;
+        }
+
+
+        .field-error {
+
+            border-color:
+                #ef4444 !important;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(239, 68, 68, 0.08)
+                !important;
+        }
+
+
+        /* =====================================================
+           MOBILE HEADER
+        ===================================================== */
+
+        .mobile-header {
+
+            display: none;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .menu-btn {
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #111827;
+
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+
+        .overlay {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+
+            z-index: 999;
+        }
+
+
+        .overlay.show {
+
+            display: block;
+        }
+
+
+        /* =====================================================
+           DARK MODE
+        ===================================================== */
+
+        body.dark {
+
+            background: #0f172a;
+
+            color: #f8fafc;
+        }
+
+
+        body.dark .card,
+        body.dark .icon-btn {
+
+            background: #1e293b;
+
+            color: #f8fafc;
+        }
+
+
+        body.dark .page-subtitle {
+
+            color: #94a3b8;
+        }
+
+
+        body.dark label {
+
+            color: #cbd5e1;
+        }
+
+
+        body.dark input,
+        body.dark select {
+
+            background: #0f172a;
+
+            border-color: #334155;
+
+            color: #f8fafc;
+        }
+
+
+        body.dark input[readonly] {
+
+            background: #172033;
+
+            color: #94a3b8;
+        }
+
+
+        body.dark .provider-box {
+
+            background: #172033;
+
+            border-color: #29415f;
+        }
+
+
+        body.dark .provider-title {
+
+            color: #60a5fa;
+        }
+
+
+        body.dark .provider-text {
+
+            color: #94a3b8;
+        }
+
+
+        body.dark .customer-summary {
+
+            background: #172033;
+
+            border-color: #29415f;
+        }
+
+
+        body.dark .summary-title {
+
+            color: #60a5fa;
+        }
+
+
+        body.dark .summary-item {
+
+            background: #1e293b;
+
+            border-color: #334155;
+        }
+
+
+        body.dark .summary-label {
+
+            color: #94a3b8;
+        }
+
+
+        body.dark .summary-value {
+
+            color: #f8fafc;
+        }
+
+
+        body.dark .info-box {
+
+            background: #172033;
+
+            color: #94a3b8;
+        }
+
+
+        body.dark .form-actions {
+
+            border-color: #334155;
+        }
+
+
+        body.dark .btn-secondary {
+
+            background: #334155;
+
+            color: #e2e8f0;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+                transition:
+                    transform 0.25s ease;
             }
 
-            .container {
-                width: 94%;
 
-                margin: 25px auto;
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
             }
 
-            .title {
-                font-size: 25px;
-            }
 
-            .card {
+            .main {
+
+                margin-left: 0;
+
                 padding: 20px;
             }
 
-            .button-group {
-                flex-direction: column;
+
+            .mobile-header {
+
+                display: flex;
             }
 
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .full-width,
+            .customer-summary,
+            .info-box,
+            .form-actions,
+            .error-message {
+
+                grid-column: auto;
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .main {
+
+                padding: 15px;
+            }
+
+
+            .card {
+
+                padding: 18px;
+
+                border-radius: 15px;
+            }
+
+
+            .page-title {
+
+                font-size: 22px;
+            }
+
+
+            .provider-box {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .gtpl-btn {
+
+                width: 100%;
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .form-actions {
+
+                flex-direction:
+                    column-reverse;
+            }
+
+
             .btn {
+
                 width: 100%;
             }
 
@@ -286,224 +1110,1544 @@
 <body>
 
 
-    <!-- Header -->
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
-    <header class="header">
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
         <div class="logo">
-            CableConnect
+            Cable<span>Connect</span>
         </div>
 
-        <div class="header-text">
-            Operator Management System
+
+        <div class="menu-title">
+            Main
         </div>
 
-    </header>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-link"
+        >
+            📊 Dashboard
+        </a>
 
 
-    <!-- Main -->
+        <a
+            href="{{ url_for('customers') }}"
+            class="nav-link"
+        >
+            👥 Customers
+        </a>
 
-    <main class="container">
+
+        <a
+            href="{{ url_for('stbs') }}"
+            class="nav-link"
+        >
+            📺 STBs
+        </a>
+
+
+        <div class="menu-title">
+            Payments
+        </div>
+
+
+        <a
+            href="{{ url_for('add_payment') }}"
+            class="nav-link"
+        >
+            💰 Collect Payment
+        </a>
+
+
+        <a
+            href="{{ url_for('payments') }}"
+            class="nav-link"
+        >
+            🧾 Payment History
+        </a>
+
+
+        <div class="menu-title">
+            TV Recharge
+        </div>
+
+
+        <a
+            href="{{ url_for('add_recharge') }}"
+            class="nav-link active"
+        >
+            🔄 TV Recharge
+        </a>
+
+
+        <a
+            href="{{ url_for('recharges') }}"
+            class="nav-link"
+        >
+            📋 Recharge History
+        </a>
+
+
+        <!-- GTPL Portal -->
+
+        <a
+            href="https://www.gtpl.net/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="nav-link"
+        >
+            🌐 GTPL Portal ↗
+        </a>
+
+
+        <div class="menu-title">
+            Customers
+        </div>
+
+
+        <a
+            href="{{ url_for('add_customer') }}"
+            class="nav-link"
+        >
+            ➕ Add Customer
+        </a>
+
+    </aside>
+
+
+    <div
+        class="overlay"
+        id="overlay"
+        onclick="closeSidebar()"
+    ></div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- Mobile Header -->
+
+        <div class="mobile-header">
+
+            <button
+                class="menu-btn"
+                onclick="openSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <button
+                class="icon-btn"
+                onclick="toggleDarkMode()"
+                id="mobileThemeButton"
+            >
+                🌙
+            </button>
+
+        </div>
 
 
         <!-- Page Header -->
 
         <div class="page-header">
 
-            <h1 class="title">
-                Add TV Recharge
-            </h1>
+            <div>
 
-            <p class="subtitle">
-                Record a recharge for a customer STB
-            </p>
-
-        </div>
+                <h1 class="page-title">
+                    🔄 Record TV Recharge
+                </h1>
 
 
-        <!-- Recharge Card -->
-
-        <div class="card">
-
-
-            <form method="POST">
-
-
-                <!-- Customer -->
-
-                <div class="form-group">
-
-                    <label for="customer_id">
-                        Customer
-                    </label>
-
-                    <select
-                        name="customer_id"
-                        id="customer_id"
-                        required
-                    >
-
-                        <option value="">
-                            Select Customer
-                        </option>
-
-                        {% for customer in customers %}
-
-                        <option value="{{ customer.id }}">
-
-                            {{ customer.name }} -
-                            STB: {{ customer.stb_number }}
-
-                        </option>
-
-                        {% endfor %}
-
-                    </select>
-
-                </div>
-
-
-                <!-- Recharge Amount -->
-
-                <div class="form-group">
-
-                    <label for="amount">
-                        Recharge Amount
-                    </label>
-
-                    <input
-                        type="number"
-                        name="amount"
-                        id="amount"
-                        placeholder="Enter recharge amount"
-                        step="0.01"
-                        min="0"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Recharge Date -->
-
-                <div class="form-group">
-
-                    <label for="recharge_date">
-                        Recharge Date
-                    </label>
-
-                    <input
-                        type="date"
-                        name="recharge_date"
-                        id="recharge_date"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- Expiry Date -->
-
-                <div class="form-group">
-
-                    <label for="expiry_date">
-                        Expiry Date
-                    </label>
-
-                    <input
-                        type="date"
-                        name="expiry_date"
-                        id="expiry_date"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- GTPL -->
-
-                <a
-                    href="https://www.gtpl.net/login"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn-gtpl"
-                >
-                    Open GTPL Portal
-                </a>
-
-
-                <!-- Buttons -->
-
-                <div class="button-group">
-
-                    <a
-                        href="/stbs"
-                        class="btn btn-secondary"
-                    >
-                        Cancel
-                    </a>
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Save Recharge
-                    </button>
-
-                </div>
-
-
-            </form>
-
-
-            <!-- Information -->
-
-            <div class="info-box">
-
-                <h3>
-                    Recharge Process
-                </h3>
-
-                <p>
-                    First open the authorized GTPL portal and complete
-                    the actual recharge. Then enter the recharge details
-                    above and click "Save Recharge" to maintain the record
-                    in CableConnect.
+                <p class="page-subtitle">
+                    Record the customer's TV recharge after
+                    completing the authorized recharge through GTPL.
                 </p>
 
             </div>
 
 
+            <div class="top-actions">
+
+                <button
+                    class="icon-btn"
+                    onclick="toggleDarkMode()"
+                    id="themeButton"
+                    title="Toggle dark mode"
+                >
+                    🌙
+                </button>
+
+            </div>
+
         </div>
 
 
-        <!-- Footer -->
+        <!-- =================================================
+             CARD
+        ================================================== -->
 
-        <div class="footer">
+        <div class="card">
 
-            © 2026 CableConnect · Operator Management System
+
+            <!-- =================================================
+                 PROVIDER BOX
+            ================================================== -->
+
+            <div class="provider-box">
+
+                <div class="provider-info">
+
+                    <div class="provider-icon">
+                        🌐
+                    </div>
+
+
+                    <div>
+
+                        <div class="provider-title">
+                            Actual TV Recharge
+                        </div>
+
+
+                        <div class="provider-text">
+
+                            Open the official GTPL portal to
+                            perform the customer's TV recharge.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GREEN GTPL BUTTON -->
+
+                <a
+                    href="https://www.gtpl.net/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="gtpl-btn"
+                >
+                    🌐 Open GTPL Portal ↗
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{{ url_for('add_recharge') }}"
+                id="rechargeForm"
+                novalidate
+            >
+
+                <div class="form-grid">
+
+
+                    <!-- Error -->
+
+                    <div
+                        class="error-message"
+                        id="errorMessage"
+                    ></div>
+
+
+                    <!-- =================================================
+                         CUSTOMER
+                    ================================================== -->
+
+                    <div class="form-group full-width">
+
+                        <label for="customer_id">
+
+                            Customer
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <select
+                            name="customer_id"
+                            id="customer_id"
+                            required
+                        >
+
+                            <option value="">
+                                Select Customer
+                            </option>
+
+
+                            {% for customer in customers %}
+
+                            <option
+                                value="{{ customer.id }}"
+                                data-mobile="{{ customer.mobile }}"
+                                data-monthly="{{ customer.monthly_amount }}"
+                                data-stb-id="{{ customer.stb_id }}"
+                                data-stb-number="{{ customer.stb_number }}"
+                            >
+
+                                {{ customer.name }}
+                                — {{ customer.mobile }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         CUSTOMER SUMMARY
+                    ================================================== -->
+
+                    <div
+                        class="customer-summary"
+                        id="customerSummary"
+                    >
+
+                        <div class="summary-title">
+                            👤 Selected Customer Details
+                        </div>
+
+
+                        <div class="summary-grid">
+
+
+                            <div class="summary-item">
+
+                                <span class="summary-label">
+                                    Customer
+                                </span>
+
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryCustomer"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-item">
+
+                                <span class="summary-label">
+                                    Mobile
+                                </span>
+
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryMobile"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-item">
+
+                                <span class="summary-label">
+                                    STB
+                                </span>
+
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryStb"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-item">
+
+                                <span class="summary-label">
+                                    Monthly Amount
+                                </span>
+
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryAmount"
+                                >
+                                    ₹0.00
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         MOBILE
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="mobile"
+                            placeholder="Customer mobile"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <!-- =================================================
+                         MONTHLY AMOUNT
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="monthly_amount">
+                            Monthly Amount
+                        </label>
+
+
+                        <div class="amount-wrapper">
+
+                            <span class="rupee-symbol">
+                                ₹
+                            </span>
+
+
+                            <input
+                                type="text"
+                                id="monthly_amount"
+                                class="amount-input"
+                                placeholder="0.00"
+                                readonly
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         STB
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="stb">
+
+                            STB
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <select
+                            id="stb"
+                            required
+                            disabled
+                        >
+
+                            <option value="">
+                                Select Customer First
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         RECHARGE AMOUNT
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="amount">
+
+                            Recharge Amount
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <div class="amount-wrapper">
+
+                            <span class="rupee-symbol">
+                                ₹
+                            </span>
+
+
+                            <input
+                                type="number"
+                                name="amount"
+                                id="amount"
+                                class="amount-input"
+                                min="1"
+                                step="0.01"
+                                placeholder="Enter recharge amount"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         RECHARGE DATE
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="recharge_date">
+
+                            Recharge Date
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            type="date"
+                            name="recharge_date"
+                            id="recharge_date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- =================================================
+                         EXPIRY DATE
+                    ================================================== -->
+
+                    <div class="form-group">
+
+                        <label for="expiry_date">
+
+                            Expiry Date
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            type="date"
+                            name="expiry_date"
+                            id="expiry_date"
+                            required
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <!-- =================================================
+                         INFO
+                    ================================================== -->
+
+                    <div class="info-box">
+
+                        <strong>
+                            💡 Recharge workflow:
+                        </strong>
+
+                        Select the customer and STB →
+                        open the GTPL portal →
+                        perform the authorized recharge →
+                        return to CableConnect →
+                        save the recharge record.
+
+                        <br><br>
+
+                        <strong>
+                            Important:
+                        </strong>
+
+                        CableConnect only records the recharge details.
+                        It does not bypass or replace the GTPL provider
+                        portal.
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACTIONS
+                    ================================================== -->
+
+                    <div class="form-actions">
+
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="resetForm()"
+                        >
+                            Reset
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            id="saveButton"
+                        >
+                            💾 Save Recharge
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+            </form>
 
         </div>
-
 
     </main>
 
 
-    <!-- Default Recharge Date -->
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
     <script>
 
-        const rechargeDate = document.getElementById("recharge_date");
 
-        const today = new Date();
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
 
-        const year = today.getFullYear();
+        const customerSelect =
+            document.getElementById(
+                "customer_id"
+            );
 
-        const month = String(today.getMonth() + 1).padStart(2, "0");
 
-        const day = String(today.getDate()).padStart(2, "0");
+        const mobileInput =
+            document.getElementById(
+                "mobile"
+            );
 
-        rechargeDate.value = `${year}-${month}-${day}`;
+
+        const monthlyAmountInput =
+            document.getElementById(
+                "monthly_amount"
+            );
+
+
+        const stbSelect =
+            document.getElementById(
+                "stb"
+            );
+
+
+        const amountInput =
+            document.getElementById(
+                "amount"
+            );
+
+
+        const rechargeDateInput =
+            document.getElementById(
+                "recharge_date"
+            );
+
+
+        const expiryDateInput =
+            document.getElementById(
+                "expiry_date"
+            );
+
+
+        const customerSummary =
+            document.getElementById(
+                "customerSummary"
+            );
+
+
+        const summaryCustomer =
+            document.getElementById(
+                "summaryCustomer"
+            );
+
+
+        const summaryMobile =
+            document.getElementById(
+                "summaryMobile"
+            );
+
+
+        const summaryStb =
+            document.getElementById(
+                "summaryStb"
+            );
+
+
+        const summaryAmount =
+            document.getElementById(
+                "summaryAmount"
+            );
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        const rechargeForm =
+            document.getElementById(
+                "rechargeForm"
+            );
+
+
+        const saveButton =
+            document.getElementById(
+                "saveButton"
+            );
+
+
+        /* =====================================================
+           GET TODAY
+        ===================================================== */
+
+        function getTodayDate() {
+
+            const today =
+                new Date();
+
+
+            const year =
+                today.getFullYear();
+
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            return (
+                year +
+                "-" +
+                month +
+                "-" +
+                day
+            );
+        }
+
+
+        /* =====================================================
+           SET DEFAULT DATE
+        ===================================================== */
+
+        function setDefaultDate() {
+
+            const today =
+                getTodayDate();
+
+
+            rechargeDateInput.value =
+                today;
+
+
+            calculateExpiryDate();
+        }
+
+
+        /* =====================================================
+           CALCULATE EXPIRY DATE
+        ===================================================== */
+
+        function calculateExpiryDate() {
+
+            if (
+                !rechargeDateInput.value
+            ) {
+
+                expiryDateInput.value =
+                    "";
+
+                return;
+            }
+
+
+            const parts =
+                rechargeDateInput.value
+                    .split("-");
+
+
+            const year =
+                Number(parts[0]);
+
+
+            const month =
+                Number(parts[1]);
+
+
+            const day =
+                Number(parts[2]);
+
+
+            /*
+                JavaScript months are zero-based.
+
+                Passing the selected month
+                automatically moves to the
+                next calendar month.
+            */
+
+            const expiry =
+                new Date(
+                    year,
+                    month,
+                    1
+                );
+
+
+            const targetDay =
+                day;
+
+
+            /*
+                Get last day of
+                expiry month.
+            */
+
+            const lastDay =
+                new Date(
+                    expiry.getFullYear(),
+                    expiry.getMonth() + 1,
+                    0
+                ).getDate();
+
+
+            const finalDay =
+                Math.min(
+                    targetDay,
+                    lastDay
+                );
+
+
+            const expiryYear =
+                expiry.getFullYear();
+
+
+            const expiryMonth =
+                String(
+                    expiry.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const expiryDay =
+                String(
+                    finalDay
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            expiryDateInput.value =
+                expiryYear +
+                "-" +
+                expiryMonth +
+                "-" +
+                expiryDay;
+        }
+
+
+        /* =====================================================
+           CUSTOMER CHANGE
+        ===================================================== */
+
+        customerSelect.addEventListener(
+            "change",
+            function () {
+
+                clearError();
+
+
+                const selectedOption =
+                    this.options[
+                        this.selectedIndex
+                    ];
+
+
+                if (!this.value) {
+
+                    clearCustomerDetails();
+
+                    return;
+                }
+
+
+                const customerName =
+                    selectedOption.textContent
+                        .split("—")[0]
+                        .trim();
+
+
+                const mobile =
+                    selectedOption.dataset.mobile ||
+                    "";
+
+
+                const monthly =
+                    selectedOption.dataset.monthly ||
+                    "0";
+
+
+                const stbNumber =
+                    selectedOption.dataset.stbNumber ||
+                    "";
+
+
+                const stbId =
+                    selectedOption.dataset.stbId ||
+                    "";
+
+
+                /* ---------------------------------------------
+                   Mobile
+                --------------------------------------------- */
+
+                mobileInput.value =
+                    mobile;
+
+
+                /* ---------------------------------------------
+                   Monthly Amount
+                --------------------------------------------- */
+
+                const numericMonthly =
+                    Number(monthly) || 0;
+
+
+                monthlyAmountInput.value =
+                    numericMonthly.toFixed(2);
+
+
+                /* ---------------------------------------------
+                   Recharge Amount
+                --------------------------------------------- */
+
+                amountInput.value =
+                    numericMonthly.toFixed(2);
+
+
+                /* ---------------------------------------------
+                   STB
+                --------------------------------------------- */
+
+                stbSelect.innerHTML =
+                    "";
+
+
+                const stbOption =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                stbOption.value =
+                    stbId;
+
+
+                stbOption.textContent =
+                    stbNumber;
+
+
+                stbOption.selected =
+                    true;
+
+
+                stbSelect.appendChild(
+                    stbOption
+                );
+
+
+                stbSelect.disabled =
+                    false;
+
+
+                /* ---------------------------------------------
+                   Summary
+                --------------------------------------------- */
+
+                summaryCustomer.textContent =
+                    customerName;
+
+
+                summaryMobile.textContent =
+                    mobile || "—";
+
+
+                summaryStb.textContent =
+                    stbNumber || "—";
+
+
+                summaryAmount.textContent =
+                    "₹" +
+                    numericMonthly.toFixed(2);
+
+
+                customerSummary.classList.add(
+                    "show"
+                );
+
+
+                customerSelect.classList.remove(
+                    "field-error"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           RECHARGE DATE CHANGE
+        ===================================================== */
+
+        rechargeDateInput.addEventListener(
+            "change",
+            function () {
+
+                calculateExpiryDate();
+
+                clearError();
+
+            }
+        );
+
+
+        /* =====================================================
+           AMOUNT CHANGE
+        ===================================================== */
+
+        amountInput.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    Number(this.value) < 0
+                ) {
+
+                    this.value =
+                        "";
+
+                }
+
+
+                clearError();
+
+            }
+        );
+
+
+        /* =====================================================
+           CLEAR CUSTOMER
+        ===================================================== */
+
+        function clearCustomerDetails() {
+
+            mobileInput.value =
+                "";
+
+
+            monthlyAmountInput.value =
+                "";
+
+
+            amountInput.value =
+                "";
+
+
+            stbSelect.innerHTML = `
+                <option value="">
+                    Select Customer First
+                </option>
+            `;
+
+
+            stbSelect.disabled =
+                true;
+
+
+            summaryCustomer.textContent =
+                "—";
+
+
+            summaryMobile.textContent =
+                "—";
+
+
+            summaryStb.textContent =
+                "—";
+
+
+            summaryAmount.textContent =
+                "₹0.00";
+
+
+            customerSummary.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        /* =====================================================
+           FORM VALIDATION
+        ===================================================== */
+
+        rechargeForm.addEventListener(
+            "submit",
+            function (event) {
+
+                clearError();
+
+
+                let valid =
+                    true;
+
+
+                let message =
+                    "";
+
+
+                /* Customer */
+
+                if (
+                    !customerSelect.value
+                ) {
+
+                    valid =
+                        false;
+
+
+                    message =
+                        "Please select a customer.";
+
+
+                    customerSelect.classList.add(
+                        "field-error"
+                    );
+                }
+
+
+                /* STB */
+
+                else if (
+                    stbSelect.disabled ||
+                    !stbSelect.value
+                ) {
+
+                    valid =
+                        false;
+
+
+                    message =
+                        "Please select a valid STB.";
+
+
+                    stbSelect.classList.add(
+                        "field-error"
+                    );
+                }
+
+
+                /* Amount */
+
+                else if (
+                    !amountInput.value ||
+                    Number(amountInput.value) <= 0
+                ) {
+
+                    valid =
+                        false;
+
+
+                    message =
+                        "Please enter a valid recharge amount.";
+
+
+                    amountInput.classList.add(
+                        "field-error"
+                    );
+                }
+
+
+                /* Recharge Date */
+
+                else if (
+                    !rechargeDateInput.value
+                ) {
+
+                    valid =
+                        false;
+
+
+                    message =
+                        "Please select the recharge date.";
+
+
+                    rechargeDateInput.classList.add(
+                        "field-error"
+                    );
+                }
+
+
+                /* Expiry Date */
+
+                else if (
+                    !expiryDateInput.value
+                ) {
+
+                    valid =
+                        false;
+
+
+                    message =
+                        "Expiry date could not be calculated.";
+
+
+                    expiryDateInput.classList.add(
+                        "field-error"
+                    );
+                }
+
+
+                /* Show error */
+
+                if (!valid) {
+
+                    event.preventDefault();
+
+
+                    showError(
+                        message
+                    );
+
+
+                    return;
+                }
+
+
+                /* Saving */
+
+                saveButton.disabled =
+                    true;
+
+
+                saveButton.innerHTML =
+                    "⏳ Saving Recharge...";
+
+            }
+        );
+
+
+        /* =====================================================
+           RESET FORM
+        ===================================================== */
+
+        function resetForm() {
+
+            rechargeForm.reset();
+
+
+            clearCustomerDetails();
+
+
+            clearError();
+
+
+            document
+                .querySelectorAll(
+                    ".field-error"
+                )
+                .forEach(
+                    element => {
+
+                        element.classList.remove(
+                            "field-error"
+                        );
+
+                    }
+                );
+
+
+            setDefaultDate();
+
+        }
+
+
+        /* =====================================================
+           SHOW ERROR
+        ===================================================== */
+
+        function showError(message) {
+
+            errorMessage.textContent =
+                "⚠️ " + message;
+
+
+            errorMessage.classList.add(
+                "show"
+            );
+
+
+            errorMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+
+        /* =====================================================
+           CLEAR ERROR
+        ===================================================== */
+
+        function clearError() {
+
+            errorMessage.textContent =
+                "";
+
+
+            errorMessage.classList.remove(
+                "show"
+            );
+
+
+            document
+                .querySelectorAll(
+                    ".field-error"
+                )
+                .forEach(
+                    element => {
+
+                        element.classList.remove(
+                            "field-error"
+                        );
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           DARK MODE
+        ===================================================== */
+
+        function updateThemeButton() {
+
+            const isDark =
+                document.body.classList.contains(
+                    "dark"
+                );
+
+
+            const icon =
+                isDark
+                    ? "☀️"
+                    : "🌙";
+
+
+            document.getElementById(
+                "themeButton"
+            ).textContent =
+                icon;
+
+
+            document.getElementById(
+                "mobileThemeButton"
+            ).textContent =
+                icon;
+
+        }
+
+
+        function toggleDarkMode() {
+
+            document.body.classList.toggle(
+                "dark"
+            );
+
+
+            const isDark =
+                document.body.classList.contains(
+                    "dark"
+                );
+
+
+            localStorage.setItem(
+                "cableconnect-theme",
+                isDark
+                    ? "dark"
+                    : "light"
+            );
+
+
+            updateThemeButton();
+
+        }
+
+
+        /* =====================================================
+           LOAD THEME
+        ===================================================== */
+
+        function loadTheme() {
+
+            const savedTheme =
+                localStorage.getItem(
+                    "cableconnect-theme"
+                );
+
+
+            if (
+                savedTheme === "dark"
+            ) {
+
+                document.body.classList.add(
+                    "dark"
+                );
+
+            }
+
+
+            updateThemeButton();
+
+        }
+
+
+        /* =====================================================
+           MOBILE SIDEBAR
+        ===================================================== */
+
+        function openSidebar() {
+
+            document
+                .getElementById(
+                    "sidebar"
+                )
+                .classList.add(
+                    "open"
+                );
+
+
+            document
+                .getElementById(
+                    "overlay"
+                )
+                .classList.add(
+                    "show"
+                );
+
+        }
+
+
+        function closeSidebar() {
+
+            document
+                .getElementById(
+                    "sidebar"
+                )
+                .classList.remove(
+                    "open"
+                );
+
+
+            document
+                .getElementById(
+                    "overlay"
+                )
+                .classList.remove(
+                    "show"
+                );
+
+        }
+
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadTheme();
+
+                setDefaultDate();
+
+            }
+        );
 
     </script>
 

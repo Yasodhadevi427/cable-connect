@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CableConnect - Login</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #21152f,
+                    #4b365f,
+                    #21152f
+                );
+
+            overflow: hidden;
+        }
+
+
+        /* =========================================
+           Background decoration
+           ========================================= */
+
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.03);
+
+            top: -180px;
+            left: -180px;
+        }
+
+        body::after {
+            content: "";
+
+            position: fixed;
+
+            width: 600px;
+            height: 600px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.025);
+
+            bottom: -250px;
+            right: -200px;
+        }
+
+
+        /* =========================================
+           Login Container
+           ========================================= */
+
+        .login-container {
+
+            position: relative;
+
+            width: 430px;
+
+            padding: 75px 45px 40px;
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,0.45);
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        /* =========================================
+           User Icon
+           ========================================= */
+
+        .user-icon {
+
+            position: absolute;
+
+            width: 115px;
+            height: 115px;
+
+            border-radius: 50%;
+
+            background: #09070d;
+
+            top: -58px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border: 3px solid rgba(255,255,255,0.05);
+        }
+
+
+        .user-icon::before {
+
+            content: "";
+
+            width: 38px;
+            height: 38px;
+
+            border: 4px solid white;
+
+            border-radius: 50%;
+
+            position: absolute;
+
+            top: 20px;
+        }
+
+
+        .user-icon::after {
+
+            content: "";
+
+            width: 58px;
+            height: 30px;
+
+            border: 4px solid white;
+
+            border-radius: 40px 40px 0 0;
+
+            border-bottom: 0;
+
+            position: absolute;
+
+            bottom: 20px;
+        }
+
+
+        /* =========================================
+           Title
+           ========================================= */
+
+        .logo {
+
+            text-align: center;
+
+            color: white;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .logo span {
+
+            color: #d7c2ed;
+        }
+
+
+        /* =========================================
+           Input Group
+           ========================================= */
+
+        .input-group {
+
+            display: flex;
+
+            width: 100%;
+
+            height: 58px;
+
+            margin-bottom: 18px;
+
+            background: white;
+
+            border-radius: 3px;
+
+            overflow: hidden;
+        }
+
+
+        .input-icon {
+
+            width: 62px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #eeeeee;
+
+            color: #555;
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        .input-group input {
+
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            padding: 0 18px;
+
+            font-size: 16px;
+
+            color: #333;
+        }
+
+
+        .input-group input::placeholder {
+
+            color: #b7b7b7;
+
+        }
+
+
+        /* =========================================
+           Options
+           ========================================= */
+
+        .options {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin: 5px 0 25px;
+
+            color: #ddd;
+
+            font-size: 14px;
+        }
+
+
+        .remember {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            cursor: pointer;
+        }
+
+
+        .remember input {
+
+            width: 17px;
+            height: 17px;
+
+            cursor: pointer;
+        }
+
+
+        .forgot {
+
+            color: #ddd;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+
+        .forgot:hover {
+
+            color: white;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================
+           Login Button
+           ========================================= */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 60px;
+
+            border: none;
+
+            border-radius: 3px;
+
+            background: #171021;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .login-button:hover {
+
+            background: #0d0913;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.35);
+        }
+
+
+        /* =========================================
+           Error Message
+           ========================================= */
+
+        .error-message {
+
+            background: rgba(255, 70, 70, 0.15);
+
+            border: 1px solid rgba(255, 100, 100, 0.5);
+
+            color: #ffd1d1;
+
+            padding: 12px;
+
+            border-radius: 4px;
+
+            text-align: center;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           Footer
+           ========================================= */
+
+        .footer {
+
+            text-align: center;
+
+            color: #bdb1c8;
+
+            font-size: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        /* =========================================
+           Mobile Responsive
+           ========================================= */
+
+        @media (max-width: 500px) {
+
+            .login-container {
+
+                width: calc(100% - 30px);
+
+                padding: 70px 25px 30px;
+            }
+
+            .logo {
+
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-container">
+
+
+        <!-- User Icon -->
+
+        <div class="user-icon"></div>
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+
+            Cable<span>Connect</span>
+
+        </div>
+
+
+        <!-- Error Message -->
+
+        {% if error_message %}
+
+            <div class="error-message">
+
+                {{ error_message }}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- Login Form -->
+
+        <form method="POST"
+              action="{{ url_for('login') }}">
+
+
+            <!-- Username -->
+
+            <div class="input-group">
+
+                <div class="input-icon">
+                    👤
+                </div>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="input-group">
+
+                <div class="input-icon">
+                    🔒
+                </div>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <!-- Options -->
+
+            <div class="options">
+
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        name="remember"
+                    >
+
+                    <span>
+                        Remember me
+                    </span>
+
+                </label>
+
+
+                <a
+                    href="{{ url_for('forgot_password') }}"
+                    class="forgot"
+                >
+                    Forgot Password?
+                </a>
+
+
+            </div>
+
+
+            <!-- Login Button -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                LOGIN
+            </button>
+
+
+        </form>
+
+
+        <!-- Footer -->
+
+        <div class="footer">
+
+            CableConnect Management System
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

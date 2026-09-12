@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>STBs - CableConnect</title>
+    <title>Recharge History - CableConnect</title>
 
     <style>
         * {
@@ -83,7 +83,6 @@
             margin-left: 250px;
             min-height: 100vh;
             padding: 25px;
-            transition: 0.3s;
         }
 
         .topbar {
@@ -105,8 +104,8 @@
 
         .top-actions {
             display: flex;
-            gap: 10px;
             align-items: center;
+            gap: 10px;
         }
 
         .theme-btn,
@@ -144,7 +143,7 @@
             transform: translateY(-2px);
         }
 
-        /* ================= SUMMARY CARDS ================= */
+        /* ================= SUMMARY ================= */
 
         .summary-grid {
             display: grid;
@@ -173,15 +172,19 @@
         }
 
         .card-value {
-            font-size: 28px;
+            font-size: 27px;
             font-weight: bold;
         }
 
-        .active-value {
+        .money {
             color: #16a34a;
         }
 
-        .inactive-value {
+        .completed {
+            color: #2563eb;
+        }
+
+        .expired {
             color: #dc2626;
         }
 
@@ -207,7 +210,7 @@
         }
 
         .search-box {
-            width: 300px;
+            width: 320px;
             padding: 11px 14px;
             border: 1px solid #d1d5db;
             border-radius: 9px;
@@ -229,7 +232,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            min-width: 850px;
         }
 
         th {
@@ -247,7 +250,7 @@
             font-size: 14px;
         }
 
-        tr {
+        tbody tr {
             transition: 0.2s;
         }
 
@@ -255,13 +258,17 @@
             background: #f8fafc;
         }
 
+        .customer-name {
+            font-weight: 600;
+        }
+
         .stb-number {
-            font-weight: bold;
+            font-weight: 600;
             color: #2563eb;
         }
 
-        .customer-name {
-            font-weight: 600;
+        .amount {
+            font-weight: 700;
         }
 
         .status {
@@ -272,25 +279,30 @@
             font-weight: 600;
         }
 
-        .active-status {
+        .completed-status {
             background: #dcfce7;
             color: #15803d;
         }
 
-        .inactive-status {
+        .pending-status {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .expired-status {
             background: #fee2e2;
             color: #b91c1c;
         }
 
         .empty-state {
             text-align: center;
-            padding: 45px 20px;
+            padding: 50px 20px;
             color: #6b7280;
         }
 
         .empty-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 42px;
+            margin-bottom: 12px;
         }
 
         /* ================= OVERLAY ================= */
@@ -382,10 +394,6 @@
                 padding: 15px;
             }
 
-            .topbar {
-                align-items: flex-start;
-            }
-
             .page-title h1 {
                 font-size: 23px;
             }
@@ -403,8 +411,8 @@
                 width: 100%;
             }
 
-            .top-actions {
-                gap: 6px;
+            .top-actions .btn {
+                display: none;
             }
         }
     </style>
@@ -430,7 +438,7 @@
         👥 Customers
     </a>
 
-    <a href="{{ url_for('stbs') }}" class="nav-link active">
+    <a href="{{ url_for('stbs') }}" class="nav-link">
         📺 STBs
     </a>
 
@@ -450,7 +458,7 @@
         🔄 TV Recharge
     </a>
 
-    <a href="{{ url_for('recharges') }}" class="nav-link">
+    <a href="{{ url_for('recharges') }}" class="nav-link active">
         📋 Recharge History
     </a>
 
@@ -469,13 +477,13 @@
 
 <div class="main">
 
-    <!-- TOP BAR -->
+    <!-- TOPBAR -->
 
     <div class="topbar">
 
         <div class="page-title">
-            <h1>STB Management</h1>
-            <p>Manage customer Set-Top Boxes and connections</p>
+            <h1>Recharge History</h1>
+            <p>View all recorded TV recharge transactions</p>
         </div>
 
         <div class="top-actions">
@@ -484,12 +492,15 @@
                 ☰
             </button>
 
-            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+            <button class="theme-btn"
+                    onclick="toggleTheme()"
+                    id="themeBtn">
                 🌙
             </button>
 
-            <a href="{{ url_for('add_recharge') }}" class="btn">
-                🔄 Recharge
+            <a href="{{ url_for('add_recharge') }}"
+               class="btn">
+                🔄 New Recharge
             </a>
 
         </div>
@@ -497,112 +508,145 @@
     </div>
 
 
-    <!-- ================= SUMMARY ================= -->
+    <!-- ================= SUMMARY CARDS ================= -->
 
     <div class="summary-grid">
 
         <div class="card">
-            <div class="card-label">Total STBs</div>
-            <div class="card-value" id="totalStbs">
-                {{ stbs|length }}
+
+            <div class="card-label">
+                Total Recharges
             </div>
+
+            <div class="card-value"
+                 id="totalRecharges">
+                {{ recharges|length }}
+            </div>
+
         </div>
 
-        <div class="card">
-            <div class="card-label">Active STBs</div>
-            <div class="card-value active-value" id="activeStbs">
-                0
-            </div>
-        </div>
 
         <div class="card">
-            <div class="card-label">Inactive STBs</div>
-            <div class="card-value inactive-value" id="inactiveStbs">
+
+            <div class="card-label">
+                Total Recharge Amount
+            </div>
+
+            <div class="card-value money"
+                 id="totalAmount">
+                ₹0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                Completed Recharges
+            </div>
+
+            <div class="card-value completed"
+                 id="completedCount">
                 0
             </div>
+
         </div>
 
     </div>
 
 
-    <!-- ================= STB TABLE ================= -->
+    <!-- ================= HISTORY ================= -->
 
     <div class="content-card">
 
         <div class="content-header">
 
-            <h2>All Set-Top Boxes</h2>
+            <h2>All Recharge Records</h2>
 
             <input
                 type="text"
                 id="searchInput"
                 class="search-box"
-                placeholder="🔍 Search customer, mobile or STB..."
-                onkeyup="searchSTBs()"
+                placeholder="🔍 Search customer, STB or date..."
+                onkeyup="searchRecharges()"
             >
 
         </div>
 
 
-        {% if stbs %}
+        {% if recharges %}
 
         <div class="table-wrapper">
 
-            <table id="stbTable">
+            <table id="rechargeTable">
 
                 <thead>
 
                     <tr>
                         <th>#</th>
                         <th>Customer</th>
-                        <th>Mobile</th>
                         <th>STB Number</th>
+                        <th>Amount</th>
+                        <th>Recharge Date</th>
+                        <th>Expiry Date</th>
                         <th>Status</th>
-                        <th>Installation Date</th>
                     </tr>
 
                 </thead>
 
                 <tbody>
 
-                    {% for stb in stbs %}
+                    {% for recharge in recharges %}
 
                     <tr>
 
-                        <td>{{ loop.index }}</td>
-
-                        <td class="customer-name">
-                            {{ stb.customer_name }}
+                        <td>
+                            {{ loop.index }}
                         </td>
 
-                        <td>
-                            {{ stb.mobile }}
+                        <td class="customer-name">
+                            {{ recharge.customer_name }}
                         </td>
 
                         <td class="stb-number">
-                            {{ stb.stb_number }}
+                            {{ recharge.stb_number }}
+                        </td>
+
+                        <td class="amount recharge-amount">
+                            ₹{{ recharge.amount }}
+                        </td>
+
+                        <td>
+                            {{ recharge.recharge_date }}
+                        </td>
+
+                        <td>
+                            {{ recharge.expiry_date }}
                         </td>
 
                         <td>
 
-                            {% if stb.status == "Active" %}
+                            {% if recharge.status == "Completed" %}
 
-                            <span class="status active-status">
-                                🟢 Active
+                            <span class="status completed-status">
+                                🟢 Completed
+                            </span>
+
+                            {% elif recharge.status == "Pending" %}
+
+                            <span class="status pending-status">
+                                🟡 Pending
                             </span>
 
                             {% else %}
 
-                            <span class="status inactive-status">
-                                🔴 Inactive
+                            <span class="status expired-status">
+                                🔴 {{ recharge.status }}
                             </span>
 
                             {% endif %}
 
-                        </td>
-
-                        <td>
-                            {{ stb.installation_date }}
                         </td>
 
                     </tr>
@@ -620,17 +664,21 @@
         <div class="empty-state">
 
             <div class="empty-icon">
-                📺
+                🔄
             </div>
 
-            <h3>No STBs Found</h3>
+            <h3>No Recharge Records</h3>
 
-            <p>Add a customer and assign an STB to see it here.</p>
+            <p>
+                Recharge records will appear here after you
+                record a TV recharge.
+            </p>
 
             <br>
 
-            <a href="{{ url_for('add_customer') }}" class="btn">
-                ➕ Add Customer
+            <a href="{{ url_for('add_recharge') }}"
+               class="btn">
+                🔄 Record Recharge
             </a>
 
         </div>
@@ -659,8 +707,6 @@
             isDark ? "☀️" : "🌙";
     }
 
-
-    /* Load saved theme */
 
     if (localStorage.getItem("darkMode") === "true") {
 
@@ -694,57 +740,77 @@
 
     /* ================= SEARCH ================= */
 
-    function searchSTBs() {
+    function searchRecharges() {
 
         const input =
             document.getElementById("searchInput")
                 .value.toLowerCase();
 
         const rows =
-            document.querySelectorAll("#stbTable tbody tr");
+            document.querySelectorAll(
+                "#rechargeTable tbody tr"
+            );
 
         rows.forEach(function(row) {
 
             const text =
                 row.innerText.toLowerCase();
 
-            if (text.includes(input)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-
+            row.style.display =
+                text.includes(input) ? "" : "none";
         });
     }
 
 
-    /* ================= COUNT STATUS ================= */
+    /* ================= SUMMARY ================= */
 
-    function calculateStatus() {
+    function calculateSummary() {
 
         const rows =
-            document.querySelectorAll("#stbTable tbody tr");
+            document.querySelectorAll(
+                "#rechargeTable tbody tr"
+            );
 
-        let active = 0;
-        let inactive = 0;
+        let totalAmount = 0;
+        let completed = 0;
 
         rows.forEach(function(row) {
 
-            const text =
-                row.innerText;
+            const amountElement =
+                row.querySelector(".recharge-amount");
 
-            if (text.includes("🟢 Active")) {
-                active++;
+            if (amountElement) {
+
+                const amount =
+                    parseFloat(
+                        amountElement.innerText
+                            .replace("₹", "")
+                            .replace(/,/g, "")
+                            .trim()
+                    );
+
+                if (!isNaN(amount)) {
+                    totalAmount += amount;
+                }
             }
 
-            if (text.includes("🔴 Inactive")) {
-                inactive++;
+
+            if (row.innerText.includes("🟢 Completed")) {
+                completed++;
             }
 
         });
 
-        animateNumber("activeStbs", active);
-        animateNumber("inactiveStbs", inactive);
+
+        animateMoney(
+            "totalAmount",
+            totalAmount
+        );
+
+        animateNumber(
+            "completedCount",
+            completed
+        );
     }
 
 
@@ -761,12 +827,16 @@
 
         const duration = 700;
 
-        const startTime = performance.now();
+        const start =
+            performance.now();
 
         function update(time) {
 
             const progress =
-                Math.min((time - startTime) / duration, 1);
+                Math.min(
+                    (time - start) / duration,
+                    1
+                );
 
             current =
                 Math.floor(progress * target);
@@ -778,14 +848,67 @@
             } else {
                 element.textContent = target;
             }
-
         }
 
         requestAnimationFrame(update);
     }
 
 
-    calculateStatus();
+    /* ================= MONEY ANIMATION ================= */
+
+    function animateMoney(elementId, target) {
+
+        const element =
+            document.getElementById(elementId);
+
+        if (!element) return;
+
+        let current = 0;
+
+        const duration = 800;
+
+        const start =
+            performance.now();
+
+        function update(time) {
+
+            const progress =
+                Math.min(
+                    (time - start) / duration,
+                    1
+                );
+
+            current =
+                target * progress;
+
+            element.textContent =
+                "₹" +
+                current.toLocaleString(
+                    "en-IN",
+                    {
+                        maximumFractionDigits: 2
+                    }
+                );
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                element.textContent =
+                    "₹" +
+                    target.toLocaleString(
+                        "en-IN",
+                        {
+                            maximumFractionDigits: 2
+                        }
+                    );
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+
+    calculateSummary();
 
 </script>
 
