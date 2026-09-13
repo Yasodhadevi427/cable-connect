@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register - CableConnect</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #24104f,
+                    #4b217f,
+                    #1b0b3a
+                );
+        }
+
+        .container {
+            width: 430px;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.4);
+
+            text-align: center;
+
+            color: white;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #ddd;
+
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            margin-bottom: 15px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 5px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #3b1768;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #eeeeee;
+        }
+
+        .error {
+            margin-bottom: 15px;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            background: rgba(255, 0, 0, 0.15);
+
+            color: #ffbaba;
+
+            font-size: 14px;
+        }
+
+        .login-link {
+            display: block;
+
+            margin-top: 20px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            CableConnect
+        </div>
+
+        <div class="subtitle">
+            TV & Internet Management System
+        </div>
+
+        <h2>
+            Create Account
+        </h2>
+
+
+        {% if error_message %}
+
+            <div class="error">
+                {{ error_message }}
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+            >
+
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
+
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+            >
+
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm Password"
+                required
+            >
+
+
+            <button type="submit">
+                CREATE ACCOUNT
+            </button>
+
+        </form>
+
+
+        <a
+            href="{{ url_for('login') }}"
+            class="login-link"
+        >
+            Already have an account? Login
+        </a>
+
+    </div>
+
+</body>
+
+</html>

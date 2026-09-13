@@ -59,6 +59,7 @@
             left: -180px;
         }
 
+
         body::after {
             content: "";
 
@@ -252,7 +253,6 @@
         .input-group input::placeholder {
 
             color: #b7b7b7;
-
         }
 
 
@@ -357,6 +357,44 @@
 
 
         /* =========================================
+           Register Link
+           ========================================= */
+
+        .register-link {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #ddd;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+
+        .register-link:hover {
+
+            color: white;
+
+            text-decoration: underline;
+        }
+
+
+        .register-link span {
+
+            color: #d7c2ed;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================================
            Error Message
            ========================================= */
 
@@ -408,6 +446,7 @@
 
                 padding: 70px 25px 30px;
             }
+
 
             .logo {
 
@@ -539,6 +578,17 @@
 
 
         </form>
+
+
+        <!-- Register Link -->
+
+        <a
+            href="{{ url_for('register') }}"
+            class="register-link"
+        >
+            Don't have an account?
+            <span>Register</span>
+        </a>
 
 
         <!-- Footer -->

@@ -122,7 +122,117 @@ def login():
     return render_template(
         "login.html"
     )
+# ============================================================
+# Operator Registration
+# ============================================================
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+
+        name = request.form["name"].strip()
+        username = request.form["username"].strip()
+        email = request.form["email"].strip().lower()
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        # Check password match
+        if password != confirm_password:
+
+            return render_template(
+                "register.html",
+                error_message="Passwords do not match."
+            )
+
+        # Check password length
+        if len(password) < 8:
+
+            return render_template(
+                "register.html",
+                error_message=(
+                    "Password must contain at least 8 characters."
+                )
+            )
+
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        # Check username or email already exists
+        check_query = """
+        SELECT id, username, email
+        FROM operators
+        WHERE username = %s
+        OR email = %s
+        """
+
+        cursor.execute(
+            check_query,
+            (
+                username,
+                email
+            )
+        )
+
+        existing_operator = cursor.fetchone()
+
+        if existing_operator:
+
+            cursor.close()
+            connection.close()
+
+            if existing_operator["username"] == username:
+
+                message = "Username already exists."
+
+            else:
+
+                message = "Email already registered."
+
+            return render_template(
+                "register.html",
+                error_message=message
+            )
+
+        # Securely hash password
+        password_hash = generate_password_hash(
+            password
+        )
+
+        # Insert new operator
+        insert_query = """
+        INSERT INTO operators
+        (
+            name,
+            username,
+            password_hash,
+            email
+        )
+        VALUES (%s, %s, %s, %s)
+        """
+
+        cursor.execute(
+            insert_query,
+            (
+                name,
+                username,
+                password_hash,
+                email
+            )
+        )
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect(
+            url_for("login")
+        )
+
+    return render_template(
+        "register.html"
+    )
 
 # ============================================================
 # Forgot Password
