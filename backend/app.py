@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+
 import mysql.connector
 
 from config import (
@@ -122,6 +123,8 @@ def login():
     return render_template(
         "login.html"
     )
+
+
 # ============================================================
 # Operator Registration
 # ============================================================
@@ -137,7 +140,10 @@ def register():
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
 
-        # Check password match
+        # ----------------------------------------------------
+        # Check Password Match
+        # ----------------------------------------------------
+
         if password != confirm_password:
 
             return render_template(
@@ -145,7 +151,10 @@ def register():
                 error_message="Passwords do not match."
             )
 
-        # Check password length
+        # ----------------------------------------------------
+        # Check Password Length
+        # ----------------------------------------------------
+
         if len(password) < 8:
 
             return render_template(
@@ -158,9 +167,15 @@ def register():
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
 
-        # Check username or email already exists
+        # ----------------------------------------------------
+        # Check Username or Email Already Exists
+        # ----------------------------------------------------
+
         check_query = """
-        SELECT id, username, email
+        SELECT
+            id,
+            username,
+            email
         FROM operators
         WHERE username = %s
         OR email = %s
@@ -194,12 +209,18 @@ def register():
                 error_message=message
             )
 
-        # Securely hash password
+        # ----------------------------------------------------
+        # Securely Hash Password
+        # ----------------------------------------------------
+
         password_hash = generate_password_hash(
             password
         )
 
-        # Insert new operator
+        # ----------------------------------------------------
+        # Insert New Operator
+        # ----------------------------------------------------
+
         insert_query = """
         INSERT INTO operators
         (
@@ -211,17 +232,33 @@ def register():
         VALUES (%s, %s, %s, %s)
         """
 
-        cursor.execute(
-            insert_query,
-            (
-                name,
-                username,
-                password_hash,
-                email
-            )
-        )
+        try:
 
-        connection.commit()
+            cursor.execute(
+                insert_query,
+                (
+                    name,
+                    username,
+                    password_hash,
+                    email
+                )
+            )
+
+            connection.commit()
+
+        except mysql.connector.IntegrityError:
+
+            connection.rollback()
+
+            cursor.close()
+            connection.close()
+
+            return render_template(
+                "register.html",
+                error_message=(
+                    "Username or email already exists."
+                )
+            )
 
         cursor.close()
         connection.close()
@@ -233,6 +270,7 @@ def register():
     return render_template(
         "register.html"
     )
+
 
 # ============================================================
 # Forgot Password
@@ -362,11 +400,11 @@ Hello,
 
 We received a request to reset your CableConnect password.
 
-Click the link below to create a new password:
+Click the link below to reset your password:
 
 {reset_link}
 
-This link will expire in 15 minutes.
+This password reset link will expire in 15 minutes.
 
 If you did not request a password reset, you can safely ignore this email.
 
@@ -638,7 +676,47 @@ def home():
         url_for("dashboard")
     )
 
+# ============================================================
+# Operator Profile
+# ============================================================
 
+@app.route("/profile")
+def profile():
+
+    if "operator_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    query = """
+    SELECT
+        id,
+        name,
+        username,
+        email
+    FROM operators
+    WHERE id = %s
+    """
+
+    cursor.execute(
+        query,
+        (session["operator_id"],)
+    )
+
+    operator = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if operator is None:
+        session.clear()
+        return redirect(url_for("login"))
+
+    return render_template(
+        "profile.html",
+        operator=operator
+    )
 # ============================================================
 # Add Customer
 # ============================================================

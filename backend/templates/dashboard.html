@@ -5,15 +5,12 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>CableConnect Dashboard</title>
 
     <style>
-
-        /* =====================================================
-           RESET
-           ===================================================== */
 
         * {
             margin: 0;
@@ -21,16 +18,12 @@
             box-sizing: border-box;
         }
 
-
-        /* =====================================================
-           LIGHT / DARK THEME
-           ===================================================== */
-
         :root {
 
             --bg: #f5f7fb;
             --sidebar: #ffffff;
             --card: #ffffff;
+
             --text: #1f2937;
             --muted: #6b7280;
             --border: #e5e7eb;
@@ -51,12 +44,12 @@
                 0 4px 20px rgba(0, 0, 0, 0.06);
         }
 
-
         body.dark {
 
             --bg: #111827;
             --sidebar: #1f2937;
             --card: #1f2937;
+
             --text: #f9fafb;
             --muted: #9ca3af;
             --border: #374151;
@@ -77,11 +70,6 @@
                 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
-
-        /* =====================================================
-           BODY
-           ===================================================== */
-
         body {
 
             font-family:
@@ -90,19 +78,16 @@
                 sans-serif;
 
             background: var(--bg);
-
             color: var(--text);
 
             transition:
                 background 0.3s,
                 color 0.3s;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            SIDEBAR
-           ===================================================== */
+           ========================= */
 
         .sidebar {
 
@@ -125,25 +110,18 @@
 
             transition:
                 transform 0.3s ease;
-
         }
-
-
-        /* Logo */
 
         .logo {
 
             display: flex;
-
             align-items: center;
 
             gap: 10px;
 
             padding:
                 10px 12px 25px;
-
         }
-
 
         .logo-icon {
 
@@ -151,58 +129,42 @@
             height: 42px;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
             background: var(--primary);
-
             color: white;
 
             border-radius: 12px;
 
             font-size: 22px;
-
         }
-
 
         .logo-text {
 
             font-size: 21px;
-
             font-weight: bold;
-
         }
-
 
         .logo-subtitle {
 
             font-size: 11px;
-
             color: var(--muted);
 
             margin-top: 3px;
-
         }
-
-
-        /* Navigation */
 
         .nav {
 
             display: flex;
-
             flex-direction: column;
 
             gap: 6px;
-
         }
-
 
         .nav a {
 
             display: flex;
-
             align-items: center;
 
             gap: 13px;
@@ -216,14 +178,11 @@
             border-radius: 9px;
 
             font-size: 14px;
-
             font-weight: 600;
 
             transition:
                 all 0.2s ease;
-
         }
-
 
         .nav a:hover {
 
@@ -232,18 +191,14 @@
             color: var(--primary);
 
             transform: translateX(3px);
-
         }
-
 
         .nav a.active {
 
             background: var(--primary-light);
 
             color: var(--primary);
-
         }
-
 
         .nav-icon {
 
@@ -252,9 +207,7 @@
             text-align: center;
 
             font-size: 18px;
-
         }
-
 
         .nav-divider {
 
@@ -263,13 +216,11 @@
             background: var(--border);
 
             margin: 15px 5px;
-
         }
 
-
-        /* =====================================================
-           MAIN CONTENT
-           ===================================================== */
+        /* =========================
+           MAIN
+           ========================= */
 
         .main {
 
@@ -277,30 +228,28 @@
 
             min-height: 100vh;
 
-            padding: 25px 30px;
+            padding:
+                25px 30px;
 
             transition:
                 margin-left 0.3s ease;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            TOP BAR
-           ===================================================== */
+           ========================= */
 
         .topbar {
 
             display: flex;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
             align-items: center;
 
             margin-bottom: 28px;
-
         }
-
 
         .menu-button {
 
@@ -322,27 +271,21 @@
             cursor: pointer;
 
             box-shadow: var(--shadow);
-
         }
-
 
         .welcome h1 {
 
             font-size: 28px;
 
             margin-bottom: 5px;
-
         }
-
 
         .welcome p {
 
             color: var(--muted);
 
             font-size: 14px;
-
         }
-
 
         .top-actions {
 
@@ -351,16 +294,15 @@
             align-items: center;
 
             gap: 10px;
-
         }
-
 
         .icon-button {
 
             width: 42px;
             height: 42px;
 
-            border: 1px solid var(--border);
+            border:
+                1px solid var(--border);
 
             background: var(--card);
 
@@ -374,17 +316,17 @@
 
             transition:
                 transform 0.2s ease;
-
         }
-
 
         .icon-button:hover {
 
             transform:
                 translateY(-2px);
-
         }
 
+        /* =========================
+           OPERATOR PROFILE LINK
+           ========================= */
 
         .operator {
 
@@ -403,9 +345,29 @@
                 1px solid var(--border);
 
             border-radius: 10px;
-
         }
 
+        .profile-link {
+
+            text-decoration: none;
+
+            color: inherit;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .profile-link:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                var(--shadow);
+        }
 
         .operator-avatar {
 
@@ -421,26 +383,21 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             font-weight: bold;
-
         }
-
 
         .operator-name {
 
             font-size: 13px;
 
             font-weight: bold;
-
         }
 
-
-        /* =====================================================
-           MONTH BADGE
-           ===================================================== */
+        /* =========================
+           MONTH
+           ========================= */
 
         .month-badge {
 
@@ -453,9 +410,11 @@
             padding:
                 8px 13px;
 
-            background: var(--primary-light);
+            background:
+                var(--primary-light);
 
-            color: var(--primary);
+            color:
+                var(--primary);
 
             border-radius: 20px;
 
@@ -464,13 +423,11 @@
             font-weight: bold;
 
             margin-bottom: 20px;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            SUMMARY CARDS
-           ===================================================== */
+           ========================= */
 
         .cards {
 
@@ -482,9 +439,7 @@
             gap: 18px;
 
             margin-bottom: 20px;
-
         }
-
 
         .card {
 
@@ -497,16 +452,15 @@
 
             padding: 22px;
 
-            box-shadow: var(--shadow);
+            box-shadow:
+                var(--shadow);
 
             cursor: pointer;
 
             transition:
                 transform 0.25s ease,
                 box-shadow 0.25s ease;
-
         }
-
 
         .card:hover {
 
@@ -516,22 +470,19 @@
             box-shadow:
                 0 10px 30px
                 rgba(0, 0, 0, 0.10);
-
         }
-
 
         .card-top {
 
             display: flex;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
             align-items: center;
 
             margin-bottom: 18px;
-
         }
-
 
         .card-icon {
 
@@ -543,13 +494,10 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             font-size: 21px;
-
         }
-
 
         .blue-icon {
 
@@ -558,9 +506,7 @@
 
             color:
                 var(--primary);
-
         }
-
 
         .green-icon {
 
@@ -569,9 +515,7 @@
 
             color:
                 var(--green);
-
         }
-
 
         .red-icon {
 
@@ -580,18 +524,14 @@
 
             color:
                 var(--red);
-
         }
-
 
         .card-arrow {
 
             color: var(--muted);
 
             font-size: 18px;
-
         }
-
 
         .card-title {
 
@@ -600,22 +540,28 @@
             font-size: 13px;
 
             margin-bottom: 7px;
-
         }
-
 
         .card-value {
 
             font-size: 30px;
 
             font-weight: bold;
-
         }
 
+        .green-text {
 
-        /* =====================================================
-           COLLECTION CARDS
-           ===================================================== */
+            color: var(--green);
+        }
+
+        .red-text {
+
+            color: var(--red);
+        }
+
+        /* =========================
+           COLLECTION
+           ========================= */
 
         .collection-grid {
 
@@ -627,9 +573,7 @@
             gap: 18px;
 
             margin-bottom: 25px;
-
         }
-
 
         .collection-card {
 
@@ -648,17 +592,13 @@
 
             transition:
                 transform 0.25s ease;
-
         }
-
 
         .collection-card:hover {
 
             transform:
                 translateY(-4px);
-
         }
-
 
         .collection-header {
 
@@ -669,9 +609,7 @@
             gap: 13px;
 
             margin-bottom: 18px;
-
         }
-
 
         .collection-icon {
 
@@ -686,44 +624,35 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             font-size: 21px;
-
         }
-
 
         .collection-title {
 
             color: var(--muted);
 
             font-size: 13px;
-
         }
-
 
         .collection-value {
 
             font-size: 30px;
 
             font-weight: bold;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            QUICK ACTIONS
-           ===================================================== */
+           ========================= */
 
         .section-title {
 
             font-size: 18px;
 
             margin-bottom: 15px;
-
         }
-
 
         .quick-actions {
 
@@ -735,9 +664,7 @@
             gap: 13px;
 
             margin-bottom: 25px;
-
         }
-
 
         .quick-action {
 
@@ -770,33 +697,28 @@
 
             transition:
                 all 0.2s ease;
-
         }
-
 
         .quick-action:hover {
 
-            color: var(--primary);
+            color:
+                var(--primary);
 
             border-color:
                 var(--primary);
 
             transform:
                 translateY(-3px);
-
         }
-
 
         .quick-action span {
 
             font-size: 20px;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            LOWER GRID
-           ===================================================== */
+           ========================= */
 
         .lower-grid {
 
@@ -806,9 +728,7 @@
                 1fr 1.5fr;
 
             gap: 20px;
-
         }
-
 
         .panel {
 
@@ -824,35 +744,30 @@
 
             box-shadow:
                 var(--shadow);
-
         }
-
 
         .panel-header {
 
             display: flex;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
             align-items: center;
 
             margin-bottom: 22px;
-
         }
-
 
         .panel-title {
 
             font-size: 17px;
 
             font-weight: bold;
-
         }
 
-
-        /* =====================================================
-           STATUS CHART
-           ===================================================== */
+        /* =========================
+           DONUT
+           ========================= */
 
         .chart-container {
 
@@ -861,9 +776,7 @@
             align-items: center;
 
             gap: 25px;
-
         }
-
 
         .donut {
 
@@ -874,7 +787,8 @@
 
             background:
                 conic-gradient(
-                    var(--green) var(--active-percent),
+                    var(--green)
+                    var(--active-percent),
                     var(--red) 0
                 );
 
@@ -885,9 +799,7 @@
             justify-content: center;
 
             flex-shrink: 0;
-
         }
-
 
         .donut-inner {
 
@@ -906,27 +818,21 @@
             align-items: center;
 
             justify-content: center;
-
         }
-
 
         .donut-number {
 
             font-size: 23px;
 
             font-weight: bold;
-
         }
-
 
         .donut-label {
 
             color: var(--muted);
 
             font-size: 11px;
-
         }
-
 
         .legend {
 
@@ -935,9 +841,7 @@
             flex-direction: column;
 
             gap: 15px;
-
         }
-
 
         .legend-item {
 
@@ -948,9 +852,7 @@
             gap: 9px;
 
             font-size: 13px;
-
         }
-
 
         .legend-dot {
 
@@ -958,38 +860,30 @@
             height: 11px;
 
             border-radius: 50%;
-
         }
-
 
         .green-dot {
 
             background:
                 var(--green);
-
         }
-
 
         .red-dot {
 
             background:
                 var(--red);
-
         }
-
 
         .legend-number {
 
             font-weight: bold;
 
             margin-left: 5px;
-
         }
 
-
-        /* =====================================================
-           PENDING CUSTOMERS
-           ===================================================== */
+        /* =========================
+           PENDING
+           ========================= */
 
         .pending-list {
 
@@ -998,9 +892,7 @@
             flex-direction: column;
 
             gap: 10px;
-
         }
-
 
         .pending-item {
 
@@ -1008,7 +900,8 @@
 
             align-items: center;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
             padding: 12px;
 
@@ -1019,17 +912,13 @@
 
             transition:
                 background 0.2s ease;
-
         }
-
 
         .pending-item:hover {
 
             background:
                 var(--red-light);
-
         }
-
 
         .customer-info {
 
@@ -1038,9 +927,7 @@
             align-items: center;
 
             gap: 10px;
-
         }
-
 
         .customer-avatar {
 
@@ -1058,22 +945,17 @@
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             font-weight: bold;
-
         }
-
 
         .customer-name {
 
             font-size: 13px;
 
             font-weight: bold;
-
         }
-
 
         .customer-mobile {
 
@@ -1082,9 +964,7 @@
             font-size: 11px;
 
             margin-top: 3px;
-
         }
-
 
         .pending-right {
 
@@ -1093,18 +973,14 @@
             align-items: center;
 
             gap: 12px;
-
         }
-
 
         .pending-amount {
 
             font-weight: bold;
 
             font-size: 13px;
-
         }
-
 
         .pay-button {
 
@@ -1123,40 +999,33 @@
             font-size: 11px;
 
             font-weight: bold;
-
         }
-
 
         .pay-button:hover {
 
             opacity: 0.85;
-
         }
-
 
         .empty-state {
 
             text-align: center;
 
-            padding: 30px 10px;
+            padding:
+                30px 10px;
 
             color: var(--muted);
-
         }
-
 
         .empty-icon {
 
             font-size: 35px;
 
             margin-bottom: 10px;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            MOBILE OVERLAY
-           ===================================================== */
+           ========================= */
 
         .overlay {
 
@@ -1170,13 +1039,11 @@
                 rgba(0, 0, 0, 0.45);
 
             z-index: 900;
-
         }
 
-
-        /* =====================================================
+        /* =========================
            RESPONSIVE
-           ===================================================== */
+           ========================= */
 
         @media (max-width: 1000px) {
 
@@ -1184,25 +1051,20 @@
 
                 grid-template-columns:
                     repeat(2, 1fr);
-
             }
 
             .quick-actions {
 
                 grid-template-columns:
                     repeat(2, 1fr);
-
             }
 
             .lower-grid {
 
                 grid-template-columns:
                     1fr;
-
             }
-
         }
-
 
         @media (max-width: 700px) {
 
@@ -1210,20 +1072,17 @@
 
                 transform:
                     translateX(-100%);
-
             }
 
             .sidebar.open {
 
                 transform:
                     translateX(0);
-
             }
 
             .overlay.show {
 
                 display: block;
-
             }
 
             .main {
@@ -1232,55 +1091,45 @@
 
                 padding:
                     18px;
-
             }
 
             .menu-button {
 
                 display: block;
-
             }
 
             .topbar {
 
                 gap: 12px;
-
             }
 
             .welcome h1 {
 
                 font-size: 22px;
-
             }
 
             .operator {
 
                 display: none;
-
             }
 
             .cards {
 
                 grid-template-columns:
                     1fr;
-
             }
 
             .collection-grid {
 
                 grid-template-columns:
                     1fr;
-
             }
 
             .chart-container {
 
                 flex-direction: column;
-
             }
-
         }
-
 
         @media (max-width: 450px) {
 
@@ -1288,13 +1137,11 @@
 
                 grid-template-columns:
                     1fr;
-
             }
 
             .top-actions .notification {
 
                 display: none;
-
             }
 
             .pending-right {
@@ -1306,928 +1153,853 @@
                     flex-end;
 
                 gap: 5px;
-
             }
-
         }
 
     </style>
 
 </head>
 
-
 <body>
 
+    <!-- =========================
+         SIDEBAR
+         ========================= -->
 
-<!-- =========================================================
-     SIDEBAR
-     ========================================================= -->
+    <aside class="sidebar" id="sidebar">
 
-<aside class="sidebar" id="sidebar">
+        <div class="logo">
 
-    <div class="logo">
-
-        <div class="logo-icon">
-            📺
-        </div>
-
-        <div>
-
-            <div class="logo-text">
-                CableConnect
+            <div class="logo-icon">
+                📺
             </div>
 
-            <div class="logo-subtitle">
-                Cable Management System
-            </div>
+            <div>
 
-        </div>
-
-    </div>
-
-
-    <nav class="nav">
-
-        <a href="{{ url_for('dashboard') }}" class="active">
-
-            <span class="nav-icon">📊</span>
-
-            Dashboard
-
-        </a>
-
-
-        <a href="{{ url_for('customers') }}">
-
-            <span class="nav-icon">👥</span>
-
-            Customers
-
-        </a>
-
-
-        <a href="{{ url_for('stbs') }}">
-
-            <span class="nav-icon">📺</span>
-
-            STBs
-
-        </a>
-
-
-        <a href="{{ url_for('add_payment') }}">
-
-            <span class="nav-icon">💰</span>
-
-            Payments
-
-        </a>
-
-
-        <a href="{{ url_for('payments') }}">
-
-            <span class="nav-icon">📋</span>
-
-            Payment History
-
-        </a>
-
-
-        <a href="{{ url_for('add_recharge') }}">
-
-            <span class="nav-icon">🔄</span>
-
-            TV Recharge
-
-        </a>
-
-
-        <a href="{{ url_for('recharges') }}">
-
-            <span class="nav-icon">📜</span>
-
-            Recharge History
-
-        </a>
-
-
-        <div class="nav-divider"></div>
-
-
-        <a href="{{ url_for('add_customer') }}">
-
-            <span class="nav-icon">➕</span>
-
-            Add Customer
-
-        </a>
-
-    </nav>
-
-</aside>
-
-
-<!-- =========================================================
-     MOBILE OVERLAY
-     ========================================================= -->
-
-<div
-    class="overlay"
-    id="overlay"
-    onclick="closeSidebar()"
-></div>
-
-
-<!-- =========================================================
-     MAIN
-     ========================================================= -->
-
-<main class="main">
-
-
-    <!-- =====================================================
-         TOP BAR
-         ===================================================== -->
-
-    <div class="topbar">
-
-
-        <div
-            style="
-                display:flex;
-                align-items:center;
-                gap:12px;
-            "
-        >
-
-            <button
-                class="menu-button"
-                onclick="toggleSidebar()"
-            >
-                ☰
-            </button>
-
-
-            <div class="welcome">
-
-                <h1>
-                    Welcome back 👋
-                </h1>
-
-                <p>
-                    Here's what's happening with your cable business.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="top-actions">
-
-
-            <button
-                class="icon-button notification"
-                title="Notifications"
-            >
-                🔔
-            </button>
-
-
-            <button
-                class="icon-button"
-                id="themeButton"
-                onclick="toggleTheme()"
-                title="Toggle dark/light mode"
-            >
-                🌙
-            </button>
-
-
-            <div class="operator">
-
-                <div class="operator-avatar">
-                    O
+                <div class="logo-text">
+                    CableConnect
                 </div>
 
-                <div class="operator-name">
-                    Operator
+                <div class="logo-subtitle">
+                    Cable Management System
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+        <nav class="nav">
 
+            <a href="{{ url_for('dashboard') }}"
+               class="active">
 
-    <!-- =====================================================
-         CURRENT MONTH
-         ===================================================== -->
-
-    <div class="month-badge">
-
-        📅
-
-        <span id="currentMonth">
-            Current Month
-        </span>
-
-    </div>
-
-
-    <!-- =====================================================
-         SUMMARY CARDS
-         ===================================================== -->
-
-    <div class="cards">
-
-
-        <!-- Total Customers -->
-
-        <div
-            class="card"
-            onclick="window.location.href='{{ url_for('customers') }}'"
-        >
-
-            <div class="card-top">
-
-                <div class="card-icon blue-icon">
-                    👥
-                </div>
-
-                <div class="card-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="card-title">
-                Total Customers
-            </div>
-
-
-            <div
-                class="card-value counter"
-                data-target="{{ total_customers }}"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <!-- Active -->
-
-        <div
-            class="card"
-            onclick="window.location.href='{{ url_for('customers') }}'"
-        >
-
-            <div class="card-top">
-
-                <div class="card-icon green-icon">
-                    🟢
-                </div>
-
-                <div class="card-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="card-title">
-                Active This Month
-            </div>
-
-
-            <div
-                class="card-value green-text counter"
-                data-target="{{ active_connections }}"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <!-- Pending -->
-
-        <div
-            class="card"
-            onclick="window.location.href='{{ url_for('dashboard') }}'"
-        >
-
-            <div class="card-top">
-
-                <div class="card-icon red-icon">
-                    ⚠️
-                </div>
-
-                <div class="card-arrow">
-                    →
-                </div>
-
-            </div>
-
-
-            <div class="card-title">
-                Pending Payments
-            </div>
-
-
-            <div
-                class="card-value red-text counter"
-                data-target="{{ pending_payments }}"
-            >
-                0
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         COLLECTION CARDS
-         ===================================================== -->
-
-    <div class="collection-grid">
-
-
-        <!-- Today's Collection -->
-
-        <div class="collection-card">
-
-            <div class="collection-header">
-
-                <div class="collection-icon">
-                    💰
-                </div>
-
-                <div>
-
-                    <div class="collection-title">
-                        Today's Collection
-                    </div>
-
-                    <div
-                        class="collection-value"
-                        data-money="{{ today_collection }}"
-                    >
-                        ₹0
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Monthly Collection -->
-
-        <div class="collection-card">
-
-            <div class="collection-header">
-
-                <div class="collection-icon">
-                    📅
-                </div>
-
-                <div>
-
-                    <div class="collection-title">
-                        Monthly Collection
-                    </div>
-
-                    <div
-                        class="collection-value"
-                        data-money="{{ monthly_collection }}"
-                    >
-                        ₹0
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         QUICK ACTIONS
-         ===================================================== -->
-
-    <div class="section-title">
-        ⚡ Quick Actions
-    </div>
-
-
-    <div class="quick-actions">
-
-
-        <a
-            href="{{ url_for('add_customer') }}"
-            class="quick-action"
-        >
-
-            <span>➕</span>
-
-            Add Customer
-
-        </a>
-
-
-        <a
-            href="{{ url_for('add_payment') }}"
-            class="quick-action"
-        >
-
-            <span>💰</span>
-
-            Record Payment
-
-        </a>
-
-
-        <a
-            href="{{ url_for('add_recharge') }}"
-            class="quick-action"
-        >
-
-            <span>🔄</span>
-
-            Add Recharge
-
-        </a>
-
-
-        <a
-            href="{{ url_for('customers') }}"
-            class="quick-action"
-        >
-
-            <span>👥</span>
-
-            View Customers
-
-        </a>
-
-    </div>
-
-
-    <!-- =====================================================
-         LOWER GRID
-         ===================================================== -->
-
-    <div class="lower-grid">
-
-
-        <!-- =================================================
-             ACTIVE / INACTIVE
-             ================================================= -->
-
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <div class="panel-title">
-                    Connection Status
-                </div>
-
-                <span>
+                <span class="nav-icon">
                     📊
                 </span>
 
-            </div>
+                Dashboard
 
+            </a>
 
-            <div class="chart-container">
+            <a href="{{ url_for('customers') }}">
 
+                <span class="nav-icon">
+                    👥
+                </span>
 
-                <div
-                    class="donut"
-                    id="statusDonut"
+                Customers
+
+            </a>
+
+            <a href="{{ url_for('stbs') }}">
+
+                <span class="nav-icon">
+                    📺
+                </span>
+
+                STBs
+
+            </a>
+
+            <a href="{{ url_for('add_payment') }}">
+
+                <span class="nav-icon">
+                    💰
+                </span>
+
+                Payments
+
+            </a>
+
+            <a href="{{ url_for('payments') }}">
+
+                <span class="nav-icon">
+                    📋
+                </span>
+
+                Payment History
+
+            </a>
+
+            <a href="{{ url_for('add_recharge') }}">
+
+                <span class="nav-icon">
+                    🔄
+                </span>
+
+                TV Recharge
+
+            </a>
+
+            <a href="{{ url_for('recharges') }}">
+
+                <span class="nav-icon">
+                    📜
+                </span>
+
+                Recharge History
+
+            </a>
+
+            <div class="nav-divider"></div>
+
+            <a href="{{ url_for('add_customer') }}">
+
+                <span class="nav-icon">
+                    ➕
+                </span>
+
+                Add Customer
+
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- =========================
+         MOBILE OVERLAY
+         ========================= -->
+
+    <div
+        class="overlay"
+        id="overlay"
+        onclick="closeSidebar()"
+    ></div>
+
+    <!-- =========================
+         MAIN
+         ========================= -->
+
+    <main class="main">
+
+        <!-- =========================
+             TOP BAR
+             ========================= -->
+
+        <div class="topbar">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                "
+            >
+
+                <button
+                    class="menu-button"
+                    onclick="toggleSidebar()"
                 >
+                    ☰
+                </button>
 
-                    <div class="donut-inner">
+                <div class="welcome">
 
-                        <div
-                            class="donut-number"
-                            id="activePercent"
-                        >
-                            0%
-                        </div>
+                    <h1>
+                        Welcome back 👋
+                    </h1>
 
-                        <div class="donut-label">
-                            Active
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="legend">
-
-
-                    <div class="legend-item">
-
-                        <span class="legend-dot green-dot"></span>
-
-                        Active
-
-                        <span
-                            class="legend-number"
-                            id="activeNumber"
-                        >
-                            {{ active_connections }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="legend-item">
-
-                        <span class="legend-dot red-dot"></span>
-
-                        Inactive
-
-                        <span
-                            class="legend-number"
-                            id="inactiveNumber"
-                        >
-                            {{ pending_payments }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="legend-item">
-
-                        Total
-
-                        <span
-                            class="legend-number"
-                        >
-                            {{ total_customers }}
-                        </span>
-
-                    </div>
+                    <p>
+                        Here's what's happening with your cable business.
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
+            <div class="top-actions">
 
+                <button
+                    class="icon-button notification"
+                    title="Notifications"
+                >
+                    🔔
+                </button>
 
-        <!-- =================================================
-             PENDING CUSTOMERS
-             ================================================= -->
+                <button
+                    class="icon-button"
+                    id="themeButton"
+                    onclick="toggleTheme()"
+                    title="Toggle dark/light mode"
+                >
+                    🌙
+                </button>
 
-        <div class="panel">
-
-            <div class="panel-header">
-
-                <div class="panel-title">
-                    ⚠️ Pending Payments
-                </div>
+                <!-- =========================
+                     OPERATOR PROFILE
+                     ========================= -->
 
                 <a
-                    href="{{ url_for('add_payment') }}"
-                    style="
-                        color:var(--primary);
-                        text-decoration:none;
-                        font-size:12px;
-                        font-weight:bold;
-                    "
+                    href="{{ url_for('profile') }}"
+                    class="operator profile-link"
+                    title="Open Operator Profile"
                 >
-                    View All
+
+                    <div class="operator-avatar">
+                        O
+                    </div>
+
+                    <div class="operator-name">
+                        Operator
+                    </div>
+
                 </a>
 
             </div>
 
+        </div>
 
-            {% if pending_customers %}
+        <!-- =========================
+             CURRENT MONTH
+             ========================= -->
 
-            <div class="pending-list">
+        <div class="month-badge">
 
+            📅
 
-                {% for customer in pending_customers %}
-
-                <div class="pending-item">
-
-
-                    <div class="customer-info">
-
-
-                        <div class="customer-avatar">
-
-                            {{ customer.name[0]|upper }}
-
-                        </div>
-
-
-                        <div>
-
-                            <div class="customer-name">
-
-                                {{ customer.name }}
-
-                            </div>
-
-                            <div class="customer-mobile">
-
-                                {{ customer.mobile }}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="pending-right">
-
-
-                        <div class="pending-amount">
-
-                            ₹{{ "%.2f"|format(customer.monthly_amount) }}
-
-                        </div>
-
-
-                        <a
-                            href="{{ url_for('add_payment', customer_id=customer.id) }}"
-                            class="pay-button"
-                        >
-                            Pay
-                        </a>
-
-                    </div>
-
-
-                </div>
-
-                {% endfor %}
-
-
-            </div>
-
-
-            {% else %}
-
-
-            <div class="empty-state">
-
-                <div class="empty-icon">
-                    🎉
-                </div>
-
-                <div>
-                    All customers have paid this month!
-                </div>
-
-            </div>
-
-
-            {% endif %}
+            <span id="currentMonth">
+                Current Month
+            </span>
 
         </div>
 
-    </div>
+        <!-- =========================
+             SUMMARY CARDS
+             ========================= -->
+
+        <div class="cards">
+
+            <!-- Total Customers -->
+
+            <div
+                class="card"
+                onclick="window.location.href='{{ url_for('customers') }}'"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-icon blue-icon">
+                        👥
+                    </div>
+
+                    <div class="card-arrow">
+                        →
+                    </div>
+
+                </div>
+
+                <div class="card-title">
+                    Total Customers
+                </div>
+
+                <div
+                    class="card-value counter"
+                    data-target="{{ total_customers }}"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <!-- Active -->
+
+            <div
+                class="card"
+                onclick="window.location.href='{{ url_for('customers') }}'"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-icon green-icon">
+                        🟢
+                    </div>
+
+                    <div class="card-arrow">
+                        →
+                    </div>
+
+                </div>
+
+                <div class="card-title">
+                    Active This Month
+                </div>
+
+                <div
+                    class="card-value green-text counter"
+                    data-target="{{ active_connections }}"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <!-- Pending -->
+
+            <div
+                class="card"
+                onclick="window.location.href='{{ url_for('dashboard') }}'"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-icon red-icon">
+                        ⚠️
+                    </div>
+
+                    <div class="card-arrow">
+                        →
+                    </div>
+
+                </div>
+
+                <div class="card-title">
+                    Pending Payments
+                </div>
+
+                <div
+                    class="card-value red-text counter"
+                    data-target="{{ pending_payments }}"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+             COLLECTION CARDS
+             ========================= -->
+
+        <div class="collection-grid">
+
+            <!-- Today's Collection -->
+
+            <div class="collection-card">
+
+                <div class="collection-header">
+
+                    <div class="collection-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <div class="collection-title">
+                            Today's Collection
+                        </div>
+
+                        <div
+                            class="collection-value"
+                            data-money="{{ today_collection }}"
+                        >
+                            ₹0
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Monthly Collection -->
+
+            <div class="collection-card">
+
+                <div class="collection-header">
+
+                    <div class="collection-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <div class="collection-title">
+                            Monthly Collection
+                        </div>
+
+                        <div
+                            class="collection-value"
+                            data-money="{{ monthly_collection }}"
+                        >
+                            ₹0
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =========================
+             QUICK ACTIONS
+             ========================= -->
+
+        <div class="section-title">
+            ⚡ Quick Actions
+        </div>
+
+        <div class="quick-actions">
+
+            <a
+                href="{{ url_for('add_customer') }}"
+                class="quick-action"
+            >
+                <span>➕</span>
+                Add Customer
+            </a>
+
+            <a
+                href="{{ url_for('add_payment') }}"
+                class="quick-action"
+            >
+                <span>💰</span>
+                Record Payment
+            </a>
+
+            <a
+                href="{{ url_for('add_recharge') }}"
+                class="quick-action"
+            >
+                <span>🔄</span>
+                Add Recharge
+            </a>
+
+            <a
+                href="{{ url_for('customers') }}"
+                class="quick-action"
+            >
+                <span>👥</span>
+                View Customers
+            </a>
+
+        </div>
+
+        <!-- =========================
+             LOWER GRID
+             ========================= -->
+
+        <div class="lower-grid">
+
+            <!-- Connection Status -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        Connection Status
+                    </div>
+
+                    <span>
+                        📊
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <div
+                        class="donut"
+                        id="statusDonut"
+                    >
+
+                        <div class="donut-inner">
+
+                            <div
+                                class="donut-number"
+                                id="activePercent"
+                            >
+                                0%
+                            </div>
+
+                            <div class="donut-label">
+                                Active
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="legend">
+
+                        <div class="legend-item">
+
+                            <span
+                                class="legend-dot green-dot"
+                            ></span>
+
+                            Active
+
+                            <span
+                                class="legend-number"
+                                id="activeNumber"
+                            >
+                                {{ active_connections }}
+                            </span>
+
+                        </div>
+
+                        <div class="legend-item">
+
+                            <span
+                                class="legend-dot red-dot"
+                            ></span>
+
+                            Inactive
+
+                            <span
+                                class="legend-number"
+                                id="inactiveNumber"
+                            >
+                                {{ pending_payments }}
+                            </span>
+
+                        </div>
+
+                        <div class="legend-item">
+
+                            Total
+
+                            <span
+                                class="legend-number"
+                            >
+                                {{ total_customers }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Pending Payments -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        ⚠️ Pending Payments
+                    </div>
+
+                    <a
+                        href="{{ url_for('add_payment') }}"
+                        style="
+                            color:var(--primary);
+                            text-decoration:none;
+                            font-size:12px;
+                            font-weight:bold;
+                        "
+                    >
+                        View All
+                    </a>
+
+                </div>
+
+                {% if pending_customers %}
+
+                <div class="pending-list">
+
+                    {% for customer in pending_customers %}
+
+                    <div class="pending-item">
+
+                        <div class="customer-info">
+
+                            <div class="customer-avatar">
+                                {{ customer.name[0]|upper }}
+                            </div>
+
+                            <div>
+
+                                <div class="customer-name">
+                                    {{ customer.name }}
+                                </div>
+
+                                <div class="customer-mobile">
+                                    {{ customer.mobile }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="pending-right">
+
+                            <div class="pending-amount">
+                                ₹{{ "%.2f"|format(customer.monthly_amount) }}
+                            </div>
+
+                            <a
+                                href="{{ url_for('add_payment', customer_id=customer.id) }}"
+                                class="pay-button"
+                            >
+                                Pay
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🎉
+                    </div>
+
+                    <div>
+                        All customers have paid this month!
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        /* =========================
+           CURRENT MONTH
+           ========================= */
+
+        const now = new Date();
+
+        const monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ];
+
+        document.getElementById("currentMonth").textContent =
+            monthNames[now.getMonth()] +
+            " " +
+            now.getFullYear();
 
 
-</main>
+        /* =========================
+           SIDEBAR
+           ========================= */
 
+        function toggleSidebar() {
 
-<script>
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
 
-    /* ========================================================
-       CURRENT MONTH
-       ======================================================== */
-
-    const now = new Date();
-
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
-
-    document.getElementById("currentMonth").textContent =
-        monthNames[now.getMonth()] +
-        " " +
-        now.getFullYear();
-
-
-    /* ========================================================
-       SIDEBAR
-       ======================================================== */
-
-    function toggleSidebar() {
-
-        document
-            .getElementById("sidebar")
-            .classList.toggle("open");
-
-        document
-            .getElementById("overlay")
-            .classList.toggle("show");
-
-    }
-
-
-    function closeSidebar() {
-
-        document
-            .getElementById("sidebar")
-            .classList.remove("open");
-
-        document
-            .getElementById("overlay")
-            .classList.remove("show");
-
-    }
-
-
-    /* ========================================================
-       DARK / LIGHT MODE
-       ======================================================== */
-
-    function applyTheme(theme) {
-
-        if (theme === "dark") {
-
-            document.body.classList.add("dark");
-
-            document.getElementById("themeButton").textContent =
-                "☀️";
-
-        } else {
-
-            document.body.classList.remove("dark");
-
-            document.getElementById("themeButton").textContent =
-                "🌙";
-
+            document
+                .getElementById("overlay")
+                .classList.toggle("show");
         }
 
-    }
+
+        function closeSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.remove("open");
+
+            document
+                .getElementById("overlay")
+                .classList.remove("show");
+        }
 
 
-    function toggleTheme() {
+        /* =========================
+           DARK / LIGHT MODE
+           ========================= */
 
-        const isDark =
-            document.body.classList.contains("dark");
+        function applyTheme(theme) {
 
-        const newTheme =
-            isDark ? "light" : "dark";
+            if (theme === "dark") {
 
-        localStorage.setItem(
-            "cableconnect-theme",
-            newTheme
-        );
+                document.body.classList.add("dark");
 
-        applyTheme(newTheme);
-
-    }
-
-
-    const savedTheme =
-        localStorage.getItem("cableconnect-theme")
-        || "light";
-
-    applyTheme(savedTheme);
-
-
-    /* ========================================================
-       NUMBER ANIMATION
-       ======================================================== */
-
-    function animateNumber(element) {
-
-        const target =
-            Number(element.dataset.target);
-
-        const duration = 1000;
-
-        const startTime = performance.now();
-
-
-        function update(currentTime) {
-
-            const elapsed =
-                currentTime - startTime;
-
-            const progress =
-                Math.min(elapsed / duration, 1);
-
-
-            const easedProgress =
-                1 - Math.pow(1 - progress, 3);
-
-
-            const currentValue =
-                Math.floor(
-                    target * easedProgress
-                );
-
-
-            element.textContent =
-                currentValue.toLocaleString();
-
-
-            if (progress < 1) {
-
-                requestAnimationFrame(update);
+                document.getElementById("themeButton").textContent =
+                    "☀️";
 
             } else {
+
+                document.body.classList.remove("dark");
+
+                document.getElementById("themeButton").textContent =
+                    "🌙";
+            }
+        }
+
+
+        function toggleTheme() {
+
+            const isDark =
+                document.body.classList.contains("dark");
+
+            const newTheme =
+                isDark ? "light" : "dark";
+
+            localStorage.setItem(
+                "cableconnect-theme",
+                newTheme
+            );
+
+            applyTheme(newTheme);
+        }
+
+
+        const savedTheme =
+            localStorage.getItem("cableconnect-theme")
+            || "light";
+
+        applyTheme(savedTheme);
+
+
+        /* =========================
+           NUMBER ANIMATION
+           ========================= */
+
+        function animateNumber(element) {
+
+            const target =
+                Number(element.dataset.target);
+
+            const duration = 1000;
+
+            const startTime =
+                performance.now();
+
+
+            function update(currentTime) {
+
+                const elapsed =
+                    currentTime - startTime;
+
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
+                    );
+
+                const easedProgress =
+                    1 - Math.pow(
+                        1 - progress,
+                        3
+                    );
+
+                const currentValue =
+                    Math.floor(
+                        target * easedProgress
+                    );
 
                 element.textContent =
-                    target.toLocaleString();
+                    currentValue.toLocaleString();
 
+
+                if (progress < 1) {
+
+                    requestAnimationFrame(
+                        update
+                    );
+
+                } else {
+
+                    element.textContent =
+                        target.toLocaleString();
+                }
             }
 
+
+            requestAnimationFrame(update);
         }
 
 
-        requestAnimationFrame(update);
-
-    }
-
-
-    document
-        .querySelectorAll(".counter")
-        .forEach(animateNumber);
+        document
+            .querySelectorAll(".counter")
+            .forEach(animateNumber);
 
 
-    /* ========================================================
-       MONEY ANIMATION
-       ======================================================== */
+        /* =========================
+           MONEY ANIMATION
+           ========================= */
 
-    function animateMoney(element) {
+        function animateMoney(element) {
 
-        const target =
-            Number(element.dataset.money);
+            const target =
+                Number(element.dataset.money);
 
-        const duration = 1000;
+            const duration = 1000;
 
-        const startTime = performance.now();
-
-
-        function update(currentTime) {
-
-            const elapsed =
-                currentTime - startTime;
-
-            const progress =
-                Math.min(elapsed / duration, 1);
+            const startTime =
+                performance.now();
 
 
-            const easedProgress =
-                1 - Math.pow(1 - progress, 3);
+            function update(currentTime) {
 
+                const elapsed =
+                    currentTime - startTime;
 
-            const currentValue =
-                target * easedProgress;
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
+                    );
 
+                const easedProgress =
+                    1 - Math.pow(
+                        1 - progress,
+                        3
+                    );
 
-            element.textContent =
-                "₹" +
-                currentValue.toLocaleString(
-                    "en-IN",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                );
+                const currentValue =
+                    target * easedProgress;
 
-
-            if (progress < 1) {
-
-                requestAnimationFrame(update);
-
-            } else {
 
                 element.textContent =
                     "₹" +
-                    target.toLocaleString(
+                    currentValue.toLocaleString(
                         "en-IN",
                         {
                             minimumFractionDigits: 2,
@@ -2235,63 +2007,77 @@
                         }
                     );
 
+
+                if (progress < 1) {
+
+                    requestAnimationFrame(
+                        update
+                    );
+
+                } else {
+
+                    element.textContent =
+                        "₹" +
+                        target.toLocaleString(
+                            "en-IN",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        );
+                }
             }
 
+
+            requestAnimationFrame(update);
         }
 
 
-        requestAnimationFrame(update);
-
-    }
-
-
-    document
-        .querySelectorAll("[data-money]")
-        .forEach(animateMoney);
+        document
+            .querySelectorAll("[data-money]")
+            .forEach(animateMoney);
 
 
-    /* ========================================================
-       ACTIVE / INACTIVE DONUT
-       ======================================================== */
+        /* =========================
+           ACTIVE / INACTIVE DONUT
+           ========================= */
 
-    const total =
-        Number("{{ total_customers }}");
+        const total =
+            Number("{{ total_customers }}");
 
-    const active =
-        Number("{{ active_connections }}");
+        const active =
+            Number("{{ active_connections }}");
 
-    const inactive =
-        Number("{{ pending_payments }}");
-
-
-    let activePercent = 0;
+        const inactive =
+            Number("{{ pending_payments }}");
 
 
-    if (total > 0) {
+        let activePercent = 0;
 
-        activePercent =
-            Math.round(
-                (active / total) * 100
+
+        if (total > 0) {
+
+            activePercent =
+                Math.round(
+                    (active / total) * 100
+                );
+        }
+
+
+        document
+            .getElementById("activePercent")
+            .textContent =
+                activePercent + "%";
+
+
+        document
+            .getElementById("statusDonut")
+            .style.setProperty(
+                "--active-percent",
+                activePercent + "%"
             );
 
-    }
-
-
-    document
-        .getElementById("activePercent")
-        .textContent =
-            activePercent + "%";
-
-
-    document
-        .getElementById("statusDonut")
-        .style.setProperty(
-            "--active-percent",
-            activePercent + "%"
-        );
-
-</script>
-
+    </script>
 
 </body>
 
