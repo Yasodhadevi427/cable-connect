@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -10,6 +11,7 @@
 
     <title>CableConnect - Login</title>
 
+
     <style>
 
         * {
@@ -18,61 +20,78 @@
             box-sizing: border-box;
         }
 
+
         body {
+
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
 
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
             background:
                 linear-gradient(
                     135deg,
-                    #21152f,
-                    #4b365f,
-                    #21152f
+                    #eff6ff,
+                    #dbeafe,
+                    #f8fafc
                 );
 
             overflow: hidden;
+
+            color: #1e293b;
         }
 
 
         /* =========================================
-           Background decoration
+           Background Decoration
            ========================================= */
 
         body::before {
+
             content: "";
 
             position: fixed;
 
             width: 500px;
+
             height: 500px;
 
             border-radius: 50%;
 
-            background: rgba(255,255,255,0.03);
+            background:
+                rgba(37, 99, 235, 0.08);
 
             top: -180px;
+
             left: -180px;
         }
 
 
         body::after {
+
             content: "";
 
             position: fixed;
 
             width: 600px;
+
             height: 600px;
 
             border-radius: 50%;
 
-            background: rgba(255,255,255,0.025);
+            background:
+                rgba(59, 130, 246, 0.07);
 
             bottom: -250px;
+
             right: -200px;
         }
 
@@ -89,16 +108,18 @@
 
             padding: 75px 45px 40px;
 
-            background: rgba(255,255,255,0.10);
+            background: #ffffff;
 
-            border: 1px solid rgba(255,255,255,0.15);
+            border:
+                1px solid #e5e7eb;
 
-            border-radius: 8px;
+            border-radius: 16px;
 
             box-shadow:
-                0 20px 50px rgba(0,0,0,0.45);
+                0 20px 50px
+                rgba(15, 23, 42, 0.15);
 
-            backdrop-filter: blur(8px);
+            z-index: 1;
         }
 
 
@@ -111,22 +132,32 @@
             position: absolute;
 
             width: 115px;
+
             height: 115px;
 
             border-radius: 50%;
 
-            background: #09070d;
+            background: #2563eb;
 
             top: -58px;
+
             left: 50%;
 
-            transform: translateX(-50%);
+            transform:
+                translateX(-50%);
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
 
-            border: 3px solid rgba(255,255,255,0.05);
+            border:
+                6px solid #ffffff;
+
+            box-shadow:
+                0 8px 20px
+                rgba(37, 99, 235, 0.25);
         }
 
 
@@ -135,9 +166,11 @@
             content: "";
 
             width: 38px;
+
             height: 38px;
 
-            border: 4px solid white;
+            border:
+                4px solid white;
 
             border-radius: 50%;
 
@@ -152,11 +185,14 @@
             content: "";
 
             width: 58px;
+
             height: 30px;
 
-            border: 4px solid white;
+            border:
+                4px solid white;
 
-            border-radius: 40px 40px 0 0;
+            border-radius:
+                40px 40px 0 0;
 
             border-bottom: 0;
 
@@ -167,14 +203,14 @@
 
 
         /* =========================================
-           Title
+           Logo
            ========================================= */
 
         .logo {
 
             text-align: center;
 
-            color: white;
+            color: #1e293b;
 
             font-size: 28px;
 
@@ -188,7 +224,7 @@
 
         .logo span {
 
-            color: #d7c2ed;
+            color: #2563eb;
         }
 
 
@@ -206,11 +242,26 @@
 
             margin-bottom: 18px;
 
-            background: white;
+            background: #f8fafc;
 
-            border-radius: 3px;
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 8px;
 
             overflow: hidden;
+
+            transition: 0.3s;
+        }
+
+
+        .input-group:focus-within {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.10);
         }
 
 
@@ -224,9 +275,9 @@
 
             align-items: center;
 
-            background: #eeeeee;
+            background: #eff6ff;
 
-            color: #555;
+            color: #2563eb;
 
             font-size: 22px;
 
@@ -246,13 +297,15 @@
 
             font-size: 16px;
 
-            color: #333;
+            color: #1e293b;
+
+            background: #f8fafc;
         }
 
 
         .input-group input::placeholder {
 
-            color: #b7b7b7;
+            color: #94a3b8;
         }
 
 
@@ -268,9 +321,10 @@
 
             align-items: center;
 
-            margin: 5px 0 25px;
+            margin:
+                5px 0 25px;
 
-            color: #ddd;
+            color: #64748b;
 
             font-size: 14px;
         }
@@ -291,17 +345,22 @@
         .remember input {
 
             width: 17px;
+
             height: 17px;
 
             cursor: pointer;
+
+            accent-color: #2563eb;
         }
 
 
         .forgot {
 
-            color: #ddd;
+            color: #2563eb;
 
             text-decoration: none;
+
+            font-weight: 600;
 
             transition: 0.2s;
         }
@@ -309,7 +368,7 @@
 
         .forgot:hover {
 
-            color: white;
+            color: #1d4ed8;
 
             text-decoration: underline;
         }
@@ -327,9 +386,9 @@
 
             border: none;
 
-            border-radius: 3px;
+            border-radius: 8px;
 
-            background: #171021;
+            background: #2563eb;
 
             color: white;
 
@@ -342,17 +401,30 @@
             cursor: pointer;
 
             transition: 0.3s;
+
+            box-shadow:
+                0 5px 15px
+                rgba(37, 99, 235, 0.20);
         }
 
 
         .login-button:hover {
 
-            background: #0d0913;
+            background: #1d4ed8;
 
-            transform: translateY(-1px);
+            transform:
+                translateY(-1px);
 
             box-shadow:
-                0 5px 15px rgba(0,0,0,0.35);
+                0 8px 20px
+                rgba(37, 99, 235, 0.30);
+        }
+
+
+        .login-button:active {
+
+            transform:
+                translateY(0);
         }
 
 
@@ -368,7 +440,7 @@
 
             margin-top: 20px;
 
-            color: #ddd;
+            color: #64748b;
 
             text-decoration: none;
 
@@ -380,7 +452,7 @@
 
         .register-link:hover {
 
-            color: white;
+            color: #2563eb;
 
             text-decoration: underline;
         }
@@ -388,7 +460,7 @@
 
         .register-link span {
 
-            color: #d7c2ed;
+            color: #2563eb;
 
             font-weight: bold;
         }
@@ -400,15 +472,17 @@
 
         .error-message {
 
-            background: rgba(255, 70, 70, 0.15);
+            background:
+                #fef2f2;
 
-            border: 1px solid rgba(255, 100, 100, 0.5);
+            border:
+                1px solid #fecaca;
 
-            color: #ffd1d1;
+            color: #b91c1c;
 
             padding: 12px;
 
-            border-radius: 4px;
+            border-radius: 8px;
 
             text-align: center;
 
@@ -426,7 +500,7 @@
 
             text-align: center;
 
-            color: #bdb1c8;
+            color: #94a3b8;
 
             font-size: 12px;
 
@@ -442,15 +516,27 @@
 
             .login-container {
 
-                width: calc(100% - 30px);
+                width:
+                    calc(100% - 30px);
 
-                padding: 70px 25px 30px;
+                padding:
+                    70px 25px 30px;
             }
 
 
             .logo {
 
                 font-size: 24px;
+            }
+
+
+            .user-icon {
+
+                width: 100px;
+
+                height: 100px;
+
+                top: -50px;
             }
 
         }
@@ -498,13 +584,23 @@
         <form method="POST"
               action="{{ url_for('login') }}">
 
+            <!-- CSRF Security Token -->
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
 
             <!-- Username -->
 
             <div class="input-group">
 
                 <div class="input-icon">
+
                     👤
+
                 </div>
 
                 <input
@@ -523,7 +619,9 @@
             <div class="input-group">
 
                 <div class="input-icon">
+
                     🔒
+
                 </div>
 
                 <input
@@ -550,7 +648,9 @@
                     >
 
                     <span>
+
                         Remember me
+
                     </span>
 
                 </label>
@@ -560,7 +660,9 @@
                     href="{{ url_for('forgot_password') }}"
                     class="forgot"
                 >
+
                     Forgot Password?
+
                 </a>
 
 
@@ -573,7 +675,9 @@
                 type="submit"
                 class="login-button"
             >
+
                 LOGIN
+
             </button>
 
 
@@ -586,8 +690,13 @@
             href="{{ url_for('register') }}"
             class="register-link"
         >
+
             Don't have an account?
-            <span>Register</span>
+
+            <span>
+                Register
+            </span>
+
         </a>
 
 

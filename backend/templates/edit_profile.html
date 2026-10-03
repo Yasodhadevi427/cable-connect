@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CableConnect - Edit Profile</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fb;
+
+            color: #1f2937;
+        }
+
+        .profile-container {
+            width: 450px;
+
+            padding: 40px;
+
+            background: #ffffff;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.10);
+        }
+
+        .profile-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #e8f1ff;
+
+            color: #2563eb;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 42px;
+
+            border: 3px solid #dbeafe;
+        }
+
+        h1 {
+            text-align: center;
+
+            margin-bottom: 30px;
+
+            font-size: 28px;
+
+            color: #1e293b;
+        }
+
+        .profile-item {
+            margin-bottom: 20px;
+        }
+
+        .profile-item label {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .profile-item input {
+            width: 100%;
+
+            height: 48px;
+
+            padding: 12px 14px;
+
+            background: #f8fafc;
+
+            color: #1e293b;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .profile-item input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+        }
+
+        .error {
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 28px;
+        }
+
+        .save-button {
+            flex: 1;
+
+            padding: 14px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .save-button:hover {
+            background: #1d4ed8;
+        }
+
+        .back-button {
+            flex: 1;
+
+            padding: 14px;
+
+            background: #e5e7eb;
+
+            color: #1f2937;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .back-button:hover {
+            background: #d1d5db;
+        }
+
+        @media (max-width: 500px) {
+
+            .profile-container {
+                width: calc(100% - 30px);
+
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .profile-icon {
+                width: 80px;
+                height: 80px;
+
+                font-size: 36px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="profile-container">
+
+        <div class="profile-icon">
+            👤
+        </div>
+
+        <h1>
+            Edit Profile
+        </h1>
+
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{{ url_for('edit_profile') }}"
+        >
+
+            <div class="profile-item">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ operator['name'] }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value="{{ operator['username'] }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ operator['email'] }}"
+                    required
+                >
+
+            </div>
+
+
+            <div class="button-group">
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    SAVE CHANGES
+                </button>
+
+
+                <a
+                    href="{{ url_for('profile') }}"
+                    class="back-button"
+                >
+                    CANCEL
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
