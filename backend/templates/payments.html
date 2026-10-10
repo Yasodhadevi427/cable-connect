@@ -1,12 +1,17 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Payment History - CableConnect</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -446,7 +451,9 @@
                 display: none;
             }
         }
+
     </style>
+
 </head>
 
 <body>
@@ -513,8 +520,11 @@
     <div class="topbar">
 
         <div class="page-title">
+
             <h1>Payment History</h1>
+
             <p>View and manage customer monthly payments</p>
+
         </div>
 
         <div class="top-actions">
@@ -523,14 +533,18 @@
                 ☰
             </button>
 
-            <button class="theme-btn"
-                    onclick="toggleTheme()"
-                    id="themeBtn">
+            <button
+                class="theme-btn"
+                onclick="toggleTheme()"
+                id="themeBtn"
+            >
                 🌙
             </button>
 
-            <a href="{{ url_for('add_payment') }}"
-               class="btn">
+            <a
+                href="{{ url_for('add_payment') }}"
+                class="btn"
+            >
                 💰 Collect Payment
             </a>
 
@@ -549,8 +563,10 @@
                 Total Payments
             </div>
 
-            <div class="card-value count"
-                 id="totalPayments">
+            <div
+                class="card-value count"
+                id="totalPayments"
+            >
                 {{ payments|length }}
             </div>
 
@@ -563,8 +579,10 @@
                 Total Collected
             </div>
 
-            <div class="card-value money"
-                 id="totalCollected">
+            <div
+                class="card-value money"
+                id="totalCollected"
+            >
                 ₹0
             </div>
 
@@ -577,8 +595,10 @@
                 Paid Records
             </div>
 
-            <div class="card-value count"
-                 id="paidCount">
+            <div
+                class="card-value count"
+                id="paidCount"
+            >
                 0
             </div>
 
@@ -615,6 +635,7 @@
                 <thead>
 
                     <tr>
+
                         <th>#</th>
                         <th>Customer</th>
                         <th>Amount</th>
@@ -623,6 +644,7 @@
                         <th>Receipt</th>
                         <th>Status</th>
                         <th>Action</th>
+
                     </tr>
 
                 </thead>
@@ -690,6 +712,14 @@
                                 onsubmit="return confirmDelete()"
                             >
 
+                                <!-- CSRF PROTECTION -->
+
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    value="{{ csrf_token() }}"
+                                >
+
                                 <button
                                     type="submit"
                                     class="delete-btn"
@@ -728,8 +758,10 @@
 
             <br>
 
-            <a href="{{ url_for('add_payment') }}"
-               class="btn">
+            <a
+                href="{{ url_for('add_payment') }}"
+                class="btn"
+            >
                 💰 Collect Payment
             </a>
 
@@ -975,4 +1007,5 @@
 </script>
 
 </body>
+
 </html>

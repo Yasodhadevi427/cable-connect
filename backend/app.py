@@ -1,20 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from flask_wtf.csrf import CSRFProtect
-import mysql.connector
-import os
-import re
-
-from config import (
-    DB_CONFIG,
-    MAIL_SERVER,
-    MAIL_PORT,
-    MAIL_USE_TLS,
-    MAIL_USERNAME,
-    MAIL_PASSWORD
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session
 )
 
-from flask_mail import Mail, Message
+from flask_wtf.csrf import CSRFProtect
 
+import mysql.connector
+
+import os
+import re
 import uuid
 import secrets
 import hashlib
@@ -22,23 +20,47 @@ import hmac
 
 from datetime import datetime, timedelta
 
+from flask_mail import Mail, Message
+
 from werkzeug.security import (
     check_password_hash,
     generate_password_hash
 )
 
+from config import (
+    DB_CONFIG,
+    MAIL_SERVER,
+    MAIL_PORT,
+    MAIL_USE_TLS,
+    MAIL_USE_SSL,
+    MAIL_USERNAME,
+    MAIL_PASSWORD,
+    SECRET_KEY
+)
+
+
+# ============================================================
+# Flask Application
+# ============================================================
 
 app = Flask(__name__)
 
+
+# ============================================================
+# CSRF Protection
+# ============================================================
+
 csrf = CSRFProtect(app)
+
+
 # ============================================================
 # Flask Secret Key
 # ============================================================
 
-app.secret_key = os.getenv(
-    "SECRET_KEY",
-    "cableconnect-secret-key"
-)
+app.secret_key = SECRET_KEY
+
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 
 # ============================================================
@@ -137,7 +159,10 @@ def is_valid_date(date_value):
 
 app.config["MAIL_SERVER"] = MAIL_SERVER
 app.config["MAIL_PORT"] = MAIL_PORT
+
 app.config["MAIL_USE_TLS"] = MAIL_USE_TLS
+app.config["MAIL_USE_SSL"] = MAIL_USE_SSL
+
 app.config["MAIL_USERNAME"] = MAIL_USERNAME
 app.config["MAIL_PASSWORD"] = MAIL_PASSWORD
 
@@ -162,7 +187,10 @@ def get_db_connection():
 # Operator Login
 # ============================================================
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route(
+    "/login",
+    methods=["GET", "POST"]
+)
 def login():
 
     if request.method == "POST":
@@ -216,11 +244,18 @@ def login():
         # Check Username and Password
         # ----------------------------------------------------
 
-        if operator and check_password_hash(
-            operator["password_hash"],
-            password
+        if (
+            operator
+            and check_password_hash(
+                operator["password_hash"],
+                password
+            )
         ):
 
+            # Clear any previous session data
+            session.clear()
+
+            # Create authenticated operator session
             session["operator_id"] = operator["id"]
 
             session["operator_name"] = (
@@ -471,8 +506,6 @@ def register():
     return render_template(
         "register.html"
     )
-
-
 # ============================================================
 # Forgot Password
 # ============================================================
@@ -597,10 +630,9 @@ def forgot_password():
         # Create Reset Link
         # ----------------------------------------------------
 
-        reset_link = url_for(
-            "reset_password",
-            token=reset_token,
-            _external=True
+        reset_link = (
+            f"{os.getenv('PUBLIC_BASE_URL')}"
+            f"/reset-password/{reset_token}"
         )
 
         # ----------------------------------------------------
@@ -634,6 +666,7 @@ If you did not request a password reset,
 you can safely ignore this email.
 
 Regards,
+
 CableConnect Team
 """
 
@@ -1099,6 +1132,10 @@ def edit_profile():
                 )
             )
 
+        # ----------------------------------------------------
+        # Update Operator
+        # ----------------------------------------------------
+
         cursor.execute(
             """
             UPDATE operators
@@ -1118,7 +1155,12 @@ def edit_profile():
 
         connection.commit()
 
+        # ----------------------------------------------------
+        # Update Session
+        # ----------------------------------------------------
+
         session["operator_name"] = name
+
         session["operator_username"] = username
 
         cursor.close()
@@ -1127,6 +1169,10 @@ def edit_profile():
         return redirect(
             url_for("profile")
         )
+
+    # ========================================================
+    # GET - Load Current Profile
+    # ========================================================
 
     cursor.execute(
         """
@@ -1161,242 +1207,181 @@ def edit_profile():
         operator=operator
     )
 
-
 # ============================================================
 # Add Customer
 # ============================================================
 
-@app.route(
-    "/add-customer",
-    methods=["GET", "POST"]
-)
+@app.route("/add-customer", methods=["GET", "POST"])
 def add_customer():
 
     if "operator_id" not in session:
+        return redirect(url_for("login"))
 
-        return redirect(
-            url_for("login")
-        )
+    operator_id = session["operator_id"]
 
-    if request.method == "POST":
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
 
-        name = request.form.get(
-            "name",
-            ""
-        ).strip()
+    try:
+        # Fetch only this operator's active TV plans
+        cursor.execute("""
+            SELECT id, plan_name, monthly_amount
+            FROM plans
+            WHERE operator_id = %s
+              AND service_type = 'TV'
+              AND status = 'Active'
+            ORDER BY plan_name
+        """, (operator_id,))
 
-        mobile = request.form.get(
-            "mobile",
-            ""
-        ).strip()
+        plans = cursor.fetchall()
 
-        address = request.form.get(
-            "address",
-            ""
-        ).strip()
+        if request.method == "POST":
 
-        monthly_amount = request.form.get(
-            "monthly_amount",
-            ""
-        ).strip()
-
-        connection_start_date = (
-            request.form.get(
-                "connection_start_date",
-                ""
+            name = request.form.get("name", "").strip()
+            mobile = request.form.get("mobile", "").strip()
+            address = request.form.get("address", "").strip()
+            plan_id = request.form.get("plan_id", "").strip()
+            connection_start_date = request.form.get(
+                "connection_start_date", ""
             ).strip()
-        )
+            stb_number = request.form.get(
+                "stb_number", ""
+            ).strip()
 
-        stb_number = request.form.get(
-            "stb_number",
-            ""
-        ).strip()
-
-        operator_id = session[
-            "operator_id"
-        ]
-
-        # ----------------------------------------------------
-        # Validate Customer Name
-        # ----------------------------------------------------
-
-        if not is_valid_name(name):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid customer name."
+            # Validate customer name
+            if not is_valid_name(name):
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Enter a valid customer name."
                 )
-            )
 
-        # ----------------------------------------------------
-        # Validate Mobile
-        # ----------------------------------------------------
-
-        if not is_valid_mobile(mobile):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid 10-digit mobile number."
+            # Validate mobile number
+            if not is_valid_mobile(mobile):
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Enter a valid 10-digit mobile number."
                 )
-            )
 
-        # ----------------------------------------------------
-        # Validate Address
-        # ----------------------------------------------------
-
-        if (
-            not address
-            or len(address) > 500
-        ):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid address."
+            # Validate address
+            if not address or len(address) > 500:
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Enter a valid address."
                 )
-            )
 
-        # ----------------------------------------------------
-        # Validate Monthly Amount
-        # ----------------------------------------------------
-
-        if not is_valid_amount(
-            monthly_amount
-        ):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid monthly amount."
+            # Validate connection start date
+            if not is_valid_date(connection_start_date):
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Enter a valid connection start date."
                 )
-            )
 
-        # ----------------------------------------------------
-        # Validate Start Date
-        # ----------------------------------------------------
-
-        if not is_valid_date(
-            connection_start_date
-        ):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid connection start date."
+            # Validate STB number
+            if not stb_number or len(stb_number) > 50:
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Enter a valid STB number."
                 )
-            )
 
-        # ----------------------------------------------------
-        # Validate STB Number
-        # ----------------------------------------------------
-
-        if (
-            not stb_number
-            or len(stb_number) > 50
-        ):
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Enter a valid STB number."
+            # Validate selected plan and get its price
+            if not plan_id.isdigit():
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="Please select a valid TV plan."
                 )
-            )
 
-        connection = get_db_connection()
+            cursor.execute("""
+                SELECT id, monthly_amount
+                FROM plans
+                WHERE id = %s
+                  AND operator_id = %s
+                  AND service_type = 'TV'
+                  AND status = 'Active'
+            """, (int(plan_id), operator_id))
 
-        cursor = connection.cursor()
+            selected_plan = cursor.fetchone()
 
-        try:
+            if selected_plan is None:
+                return render_template(
+                    "add_customer.html",
+                    plans=plans,
+                    error_message="The selected plan is unavailable."
+                )
 
-            # ------------------------------------------------
-            # Insert Customer
-            # ------------------------------------------------
+            monthly_amount = selected_plan["monthly_amount"]
 
-            customer_query = """
-            INSERT INTO customers
-            (
+            # Insert customer and STB together
+            # so a failure does not leave an incomplete customer.
+            connection.start_transaction()
+
+            cursor.execute("""
+                INSERT INTO customers
+                (
+                    operator_id,
+                    plan_id,
+                    name,
+                    mobile,
+                    address,
+                    monthly_amount,
+                    connection_start_date
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (
                 operator_id,
+                selected_plan["id"],
                 name,
                 mobile,
                 address,
                 monthly_amount,
                 connection_start_date
-            )
-            VALUES (%s, %s, %s, %s, %s, %s)
-            """
+            ))
 
-            customer_values = (
-                operator_id,
-                name,
-                mobile,
-                address,
-                monthly_amount,
-                connection_start_date
-            )
+            customer_id = cursor.lastrowid
 
-            cursor.execute(
-                customer_query,
-                customer_values
-            )
-
-            customer_id = (
-                cursor.lastrowid
-            )
-
-            # ------------------------------------------------
-            # Insert STB
-            # ------------------------------------------------
-
-            stb_query = """
-            INSERT INTO stbs
-            (
-                customer_id,
-                stb_number,
-                installation_date
-            )
-            VALUES (%s, %s, %s)
-            """
-
-            stb_values = (
+            cursor.execute("""
+                INSERT INTO stbs
+                (
+                    customer_id,
+                    stb_number,
+                    installation_date
+                )
+                VALUES (%s, %s, %s)
+            """, (
                 customer_id,
                 stb_number,
                 connection_start_date
-            )
-
-            cursor.execute(
-                stb_query,
-                stb_values
-            )
+            ))
 
             connection.commit()
 
-        except mysql.connector.Error as error:
+            return redirect(url_for("customers"))
 
-            connection.rollback()
-
-            cursor.close()
-            connection.close()
-
-            return render_template(
-                "add_customer.html",
-                error_message=(
-                    "Unable to add customer. "
-                    "Please check the entered details."
-                )
-            )
-
-        cursor.close()
-        connection.close()
-
-        return redirect(
-            url_for("customers")
+        return render_template(
+            "add_customer.html",
+            plans=plans
         )
 
-    return render_template(
-        "add_customer.html"
-    )
+    except mysql.connector.Error:
+        connection.rollback()
+
+        return render_template(
+            "add_customer.html",
+            plans=plans,
+            error_message=(
+                "Unable to add customer. "
+                "Please check the entered details."
+            )
+        )
+
+    finally:
+        cursor.close()
+        connection.close()
 
 
 # ============================================================
@@ -1435,7 +1420,8 @@ def customers():
                 SELECT 1
                 FROM payments
 
-                WHERE payments.customer_id = customers.id
+                WHERE payments.customer_id =
+                    customers.id
 
                 AND payments.billing_month =
                     MONTH(CURDATE())
@@ -1444,6 +1430,7 @@ def customers():
                     YEAR(CURDATE())
 
                 AND payments.status = 'Paid'
+
             )
 
             THEN 'Active'
@@ -1623,49 +1610,49 @@ def add_recharge():
                 400
             )
 
-        recharge_datetime = datetime.strptime(
-            recharge_date,
-            "%Y-%m-%d"
-        )
+        # ----------------------------------------------------
+        # Validate Expiry Date
+        # ----------------------------------------------------
 
-        expiry_datetime = datetime.strptime(
-            expiry_date,
-            "%Y-%m-%d"
-        )
-
-        if expiry_datetime < recharge_datetime:
+        if expiry_date < recharge_date:
 
             cursor.close()
             connection.close()
 
             return (
-                "Expiry date cannot be before "
-                "recharge date.",
+                "Expiry date cannot be before recharge date.",
                 400
             )
 
         # ----------------------------------------------------
-        # Verify Customer Belongs To Operator
+        # Check Customer Belongs To Operator
         # ----------------------------------------------------
 
-        customer_check_query = """
-        SELECT id
-        FROM customers
-        WHERE id = %s
-        AND operator_id = %s
-        """
-
         cursor.execute(
-            customer_check_query,
+            """
+            SELECT
+                c.id,
+                c.name,
+                s.id AS stb_id,
+                s.stb_number
+            FROM customers c
+
+            JOIN stbs s
+                ON c.id = s.customer_id
+
+            WHERE c.id = %s
+
+            AND c.operator_id = %s
+            """,
             (
-                customer_id,
+                int(customer_id),
                 session["operator_id"]
             )
         )
 
-        customer_exists = cursor.fetchone()
+        customer = cursor.fetchone()
 
-        if customer_exists is None:
+        if customer is None:
 
             cursor.close()
             connection.close()
@@ -1674,35 +1661,6 @@ def add_recharge():
                 "Customer not found.",
                 404
             )
-
-        # ----------------------------------------------------
-        # Get STB ID
-        # ----------------------------------------------------
-
-        stb_query = """
-        SELECT id
-        FROM stbs
-        WHERE customer_id = %s
-        """
-
-        cursor.execute(
-            stb_query,
-            (customer_id,)
-        )
-
-        stb = cursor.fetchone()
-
-        if stb is None:
-
-            cursor.close()
-            connection.close()
-
-            return (
-                "No STB found for this customer.",
-                404
-            )
-
-        stb_id = stb["id"]
 
         # ----------------------------------------------------
         # Insert Recharge
@@ -1715,24 +1673,23 @@ def add_recharge():
             stb_id,
             amount,
             recharge_date,
-            expiry_date
+            expiry_date,
+            status
         )
-        VALUES (%s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, 'Completed')
         """
-
-        recharge_values = (
-            customer_id,
-            stb_id,
-            amount,
-            recharge_date,
-            expiry_date
-        )
 
         try:
 
             cursor.execute(
                 recharge_query,
-                recharge_values
+                (
+                    customer["id"],
+                    customer["stb_id"],
+                    amount,
+                    recharge_date,
+                    expiry_date
+                )
             )
 
             connection.commit()
@@ -1745,7 +1702,7 @@ def add_recharge():
             connection.close()
 
             return (
-                "Unable to add recharge.",
+                "Unable to record recharge.",
                 500
             )
 
@@ -1756,51 +1713,42 @@ def add_recharge():
             url_for("recharges")
         )
 
-    # --------------------------------------------------------
-    # Get Customers + STB Details
-    # --------------------------------------------------------
-
-    customer_query = """
-    SELECT
-        customers.id,
-        customers.name,
-        customers.mobile,
-        customers.monthly_amount,
-
-        stbs.id AS stb_id,
-        stbs.stb_number
-
-    FROM customers
-
-    JOIN stbs
-        ON customers.id = stbs.customer_id
-
-    WHERE customers.operator_id = %s
-
-    ORDER BY customers.name
-    """
+    # ========================================================
+    # GET - Customers For Recharge
+    # ========================================================
 
     cursor.execute(
-        customer_query,
-        (session["operator_id"],)
+        """
+        SELECT
+            c.id,
+            c.name,
+            c.mobile,
+            c.monthly_amount,
+            s.id AS stb_id,
+            s.stb_number
+        FROM customers c
+
+        JOIN stbs s
+            ON c.id = s.customer_id
+
+        WHERE c.operator_id = %s
+
+        ORDER BY c.name
+        """,
+        (
+            session["operator_id"],
+        )
     )
 
-    customer_list = cursor.fetchall()
-
-    selected_customer = request.args.get(
-        "customer_id"
-    )
+    customers_list = cursor.fetchall()
 
     cursor.close()
     connection.close()
 
     return render_template(
         "add_recharge.html",
-        customers=customer_list,
-        selected_customer=selected_customer
+        customers=customers_list
     )
-
-
 # ============================================================
 # Recharge History
 # ============================================================
@@ -1809,10 +1757,7 @@ def add_recharge():
 def recharges():
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -1871,10 +1816,7 @@ def recharges():
 def delete_payment(payment_id):
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -1920,10 +1862,7 @@ def delete_payment(payment_id):
 def add_payment():
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -2274,10 +2213,7 @@ def add_payment():
 def payments():
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -2333,10 +2269,7 @@ def payments():
 def payment_receipt(payment_id):
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -2409,10 +2342,7 @@ def payment_receipt(payment_id):
 def customer_details(customer_id):
 
     if "operator_id" not in session:
-
-        return redirect(
-            url_for("login")
-        )
+        return redirect(url_for("login"))
 
     connection = get_db_connection()
 
@@ -2496,46 +2426,13 @@ def customer_details(customer_id):
 
     payment_history = cursor.fetchall()
 
-    # --------------------------------------------------------
-    # Recharge History
-    # --------------------------------------------------------
-
-    recharge_query = """
-    SELECT
-        recharges.id,
-        recharges.amount,
-        recharges.recharge_date,
-        recharges.expiry_date,
-        recharges.status,
-        stbs.stb_number
-
-    FROM recharges
-
-    JOIN stbs
-        ON recharges.stb_id = stbs.id
-
-    WHERE recharges.customer_id = %s
-
-    ORDER BY
-        recharges.recharge_date DESC,
-        recharges.id DESC
-    """
-
-    cursor.execute(
-        recharge_query,
-        (customer_id,)
-    )
-
-    recharge_history = cursor.fetchall()
-
     cursor.close()
     connection.close()
 
     return render_template(
         "customer_details.html",
         customer=customer,
-        payments=payment_history,
-        recharges=recharge_history
+        payments=payment_history
     )
 
 
@@ -2547,7 +2444,6 @@ def customer_details(customer_id):
 def dashboard():
 
     if "operator_id" not in session:
-
         return redirect(
             url_for("login")
         )
@@ -2786,6 +2682,191 @@ def dashboard():
             pending_customers
     )
 
+@app.route("/plans")
+def plans():
+
+    if "operator_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            id,
+            plan_name,
+            service_type,
+            monthly_amount,
+            description,
+            status
+        FROM plans
+        WHERE operator_id = %s
+        ORDER BY id ASC
+    """, (session["operator_id"],))
+
+    plans = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "plans.html",
+        plans=plans
+    )
+    
+@app.route("/add-plan", methods=["GET", "POST"])
+def add_plan():
+
+    if "operator_id" not in session:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        plan_name = request.form.get("plan_name", "").strip()
+        service_type = request.form.get("service_type", "").strip()
+        monthly_amount = request.form.get("monthly_amount", "").strip()
+        description = request.form.get("description", "").strip()
+
+        if not plan_name or not service_type or not monthly_amount:
+            return render_template(
+                "add_plan.html",
+                error="Plan name, service type, and monthly amount are required."
+            )
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            INSERT INTO plans
+            (
+                operator_id,
+                plan_name,
+                service_type,
+                monthly_amount,
+                description,
+                status
+            )
+            VALUES (%s, %s, %s, %s, %s, 'Active')
+        """, (
+            session["operator_id"],
+            plan_name,
+            service_type,
+            monthly_amount,
+            description
+        ))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect(url_for("plans"))
+
+    return render_template("add_plan.html")
+@app.route("/edit-plan/<int:plan_id>", methods=["GET", "POST"])
+def edit_plan(plan_id):
+
+    if "operator_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    if request.method == "POST":
+
+        plan_name = request.form.get("plan_name", "").strip()
+        service_type = request.form.get("service_type", "").strip()
+        monthly_amount = request.form.get("monthly_amount", "").strip()
+        description = request.form.get("description", "").strip()
+        status = request.form.get("status", "Active").strip()
+
+        if not plan_name or not service_type or not monthly_amount:
+            cursor.close()
+            connection.close()
+
+            return render_template(
+                "edit_plan.html",
+                error="Plan name, service type, and monthly amount are required."
+            )
+
+        cursor.execute("""
+            UPDATE plans
+            SET plan_name = %s,
+                service_type = %s,
+                monthly_amount = %s,
+                description = %s,
+                status = %s
+            WHERE id = %s
+              AND operator_id = %s
+        """, (
+            plan_name,
+            service_type,
+            monthly_amount,
+            description,
+            status,
+            plan_id,
+            session["operator_id"]
+        ))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect(url_for("plans"))
+
+    cursor.execute("""
+        SELECT
+            id,
+            plan_name,
+            service_type,
+            monthly_amount,
+            description,
+            status
+        FROM plans
+        WHERE id = %s
+          AND operator_id = %s
+    """, (
+        plan_id,
+        session["operator_id"]
+    ))
+
+    plan = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if plan is None:
+        return redirect(url_for("plans"))
+
+    return render_template(
+        "edit_plan.html",
+        plan=plan
+    )
+@app.route("/delete-plan/<int:plan_id>", methods=["POST"])
+def delete_plan(plan_id):
+
+    if "operator_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        DELETE FROM plans
+        WHERE id = %s
+          AND operator_id = %s
+    """, (
+        plan_id,
+        session["operator_id"]
+    ))
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return redirect(url_for("plans"))
 
 # ============================================================
 # Run Application
@@ -2798,3 +2879,4 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+    

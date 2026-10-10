@@ -252,6 +252,15 @@
             action="{{ url_for('edit_profile') }}"
         >
 
+            <!-- CSRF Protection -->
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
             <div class="profile-item">
 
                 <label for="name">

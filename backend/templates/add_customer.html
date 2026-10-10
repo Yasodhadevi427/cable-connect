@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,8 +21,7 @@
             transition: 0.3s;
         }
 
-        /* ================= SIDEBAR ================= */
-
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             left: 0;
@@ -77,8 +77,7 @@
             color: white;
         }
 
-        /* ================= MAIN ================= */
-
+        /* MAIN */
         .main {
             margin-left: 250px;
             min-height: 100vh;
@@ -124,8 +123,7 @@
             display: none;
         }
 
-        /* ================= FORM CARD ================= */
-
+        /* FORM CARD */
         .form-card {
             max-width: 900px;
             background: white;
@@ -148,8 +146,7 @@
             font-size: 13px;
         }
 
-        /* ================= FORM ================= */
-
+        /* FORM */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -176,7 +173,8 @@
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 12px 13px;
             border: 1px solid #d1d5db;
@@ -194,9 +192,15 @@
         }
 
         input:focus,
-        textarea:focus {
+        textarea:focus,
+        select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        input[readonly] {
+            background: #f3f4f6;
+            font-weight: 600;
         }
 
         .hint {
@@ -204,8 +208,6 @@
             font-size: 11px;
             margin-top: 5px;
         }
-
-        /* ================= ERROR ================= */
 
         .error-message {
             background: #fee2e2;
@@ -217,8 +219,7 @@
             font-size: 14px;
         }
 
-        /* ================= ACTIONS ================= */
-
+        /* ACTIONS */
         .form-actions {
             display: flex;
             justify-content: flex-end;
@@ -257,8 +258,7 @@
             background: #e5e7eb;
         }
 
-        /* ================= INFO ================= */
-
+        /* INFO */
         .info-box {
             margin-top: 22px;
             padding: 15px;
@@ -270,8 +270,7 @@
             line-height: 1.6;
         }
 
-        /* ================= OVERLAY ================= */
-
+        /* OVERLAY */
         .overlay {
             display: none;
             position: fixed;
@@ -280,8 +279,7 @@
             z-index: 900;
         }
 
-        /* ================= DARK MODE ================= */
-
+        /* DARK MODE */
         body.dark {
             background: #0f172a;
             color: #e5e7eb;
@@ -305,10 +303,15 @@
         }
 
         body.dark input,
-        body.dark textarea {
+        body.dark textarea,
+        body.dark select {
             background: #0f172a;
             color: white;
             border-color: #475569;
+        }
+
+        body.dark input[readonly] {
+            background: #334155;
         }
 
         body.dark .btn-secondary {
@@ -325,10 +328,8 @@
             color: #bfdbfe;
         }
 
-        /* ================= RESPONSIVE ================= */
-
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-
             .sidebar {
                 transform: translateX(-100%);
             }
@@ -352,7 +353,6 @@
         }
 
         @media (max-width: 650px) {
-
             .main {
                 padding: 15px;
             }
@@ -383,6 +383,7 @@
 
             .btn {
                 width: 100%;
+                text-align: center;
             }
         }
     </style>
@@ -390,13 +391,9 @@
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
-
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-
-    <div class="logo">
-        📺 Cable<span>Connect</span>
-    </div>
+    <div class="logo">📺 Cable<span>Connect</span></div>
 
     <div class="nav-title">Main</div>
 
@@ -438,70 +435,50 @@
         ➕ Add Customer
     </a>
 
+    <a href="{{ url_for('plans') }}" class="nav-link">
+        📦 TV Plans
+    </a>
 </div>
 
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-
-<!-- ================= MAIN ================= -->
-
+<!-- MAIN -->
 <div class="main">
 
     <div class="topbar">
-
         <div class="page-title">
-
             <h1>Add Customer</h1>
-
-            <p>
-                Register a new cable TV customer and STB connection
-            </p>
-
+            <p>Register a new cable TV customer and STB connection</p>
         </div>
 
         <div class="top-actions">
-
-            <button class="menu-btn" onclick="openSidebar()">
+            <button type="button" class="menu-btn" onclick="openSidebar()">
                 ☰
             </button>
 
             <button
+                type="button"
                 class="theme-btn"
                 onclick="toggleTheme()"
                 id="themeBtn"
             >
                 🌙
             </button>
-
         </div>
-
     </div>
-
-
-    <!-- ================= FORM ================= -->
 
     <div class="form-card">
 
         <div class="form-header">
-
             <h2>👤 Customer Information</h2>
-
-            <p>
-                Enter the customer's basic information and monthly
-                connection details.
-            </p>
-
+            <p>Enter customer information and select a monthly TV plan.</p>
         </div>
-
 
         {% if error_message %}
-
-        <div class="error-message">
-            ⚠️ {{ error_message }}
-        </div>
-
+            <div class="error-message">
+                ⚠️ {{ error_message }}
+            </div>
         {% endif %}
-
 
         <form
             method="POST"
@@ -509,15 +486,18 @@
             onsubmit="return validateForm()"
         >
 
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
             <div class="form-grid">
 
-                <!-- NAME -->
-
+                <!-- CUSTOMER NAME -->
                 <div class="form-group">
-
                     <label for="name">
-                        Customer Name
-                        <span class="required">*</span>
+                        Customer Name <span class="required">*</span>
                     </label>
 
                     <input
@@ -525,19 +505,15 @@
                         name="name"
                         id="name"
                         placeholder="Enter customer name"
+                        value="{{ request.form.get('name', '') }}"
                         required
                     >
-
                 </div>
 
-
                 <!-- MOBILE -->
-
                 <div class="form-group">
-
                     <label for="mobile">
-                        Mobile Number
-                        <span class="required">*</span>
+                        Mobile Number <span class="required">*</span>
                     </label>
 
                     <input
@@ -546,273 +522,241 @@
                         id="mobile"
                         placeholder="Enter 10-digit mobile number"
                         maxlength="10"
+                        value="{{ request.form.get('mobile', '') }}"
                         required
                     >
 
-                    <div class="hint">
-                        Enter a valid 10-digit mobile number.
-                    </div>
-
+                    <div class="hint">Enter a valid 10-digit mobile number.</div>
                 </div>
 
-
                 <!-- ADDRESS -->
-
                 <div class="form-group full">
-
                     <label for="address">
-                        Address
+                        Address <span class="required">*</span>
                     </label>
 
                     <textarea
                         name="address"
                         id="address"
+                        maxlength="500"
                         placeholder="Enter customer address"
-                    ></textarea>
-
+                        required
+                    >{{ request.form.get('address', '') }}</textarea>
                 </div>
 
-
                 <!-- STB -->
-
                 <div class="form-group">
-
                     <label for="stb_number">
-                        STB Number
-                        <span class="required">*</span>
+                        STB Number <span class="required">*</span>
                     </label>
 
                     <input
                         type="text"
                         name="stb_number"
                         id="stb_number"
+                        maxlength="50"
                         placeholder="Enter STB number"
+                        value="{{ request.form.get('stb_number', '') }}"
                         required
                     >
 
-                    <div class="hint">
-                        Unique Set-Top Box identification number.
-                    </div>
-
+                    <div class="hint">Set-Top Box identification number.</div>
                 </div>
 
+                <!-- TV PLAN -->
+                <div class="form-group">
+                    <label for="plan_id">
+                        TV Plan <span class="required">*</span>
+                    </label>
+
+                    <select name="plan_id" id="plan_id" required>
+                        <option value="">Select a TV plan</option>
+
+                        {% for plan in plans %}
+                            <option
+                                value="{{ plan['id'] }}"
+                                data-amount="{{ plan['monthly_amount'] }}"
+                                {% if request.form.get('plan_id', '')|string == plan['id']|string %}selected{% endif %}
+                            >
+                                {{ plan['plan_name'] }} — ₹{{ "%.2f"|format(plan['monthly_amount']) }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    {% if not plans %}
+                        <div class="hint">
+                            No active TV plans are available.
+                            <a href="{{ url_for('plans') }}">Create a TV plan</a> first.
+                        </div>
+                    {% else %}
+                        <div class="hint">Choose an active TV package.</div>
+                    {% endif %}
+                </div>
 
                 <!-- MONTHLY AMOUNT -->
-
                 <div class="form-group">
-
                     <label for="monthly_amount">
-                        Monthly Amount
-                        <span class="required">*</span>
+                        Monthly Amount (₹) <span class="required">*</span>
                     </label>
 
                     <input
                         type="number"
                         name="monthly_amount"
                         id="monthly_amount"
-                        placeholder="Enter monthly amount"
-                        min="0"
+                        placeholder="Selected plan amount"
+                        min="0.01"
                         step="0.01"
+                        value="{{ request.form.get('monthly_amount', '') }}"
+                        readonly
                         required
                     >
 
+                    <div class="hint">
+                        Automatically filled from the selected plan.
+                    </div>
                 </div>
 
-
                 <!-- CONNECTION DATE -->
-
                 <div class="form-group">
-
                     <label for="connection_start_date">
-                        Connection Start Date
-                        <span class="required">*</span>
+                        Connection Start Date <span class="required">*</span>
                     </label>
 
                     <input
                         type="date"
                         name="connection_start_date"
                         id="connection_start_date"
+                        value="{{ request.form.get('connection_start_date', '') }}"
                         required
                     >
-
                 </div>
 
             </div>
 
-
-            <!-- INFO -->
-
             <div class="info-box">
-
                 💡 <strong>Tip:</strong>
-                After adding the customer, the STB connection will
-                be available in the STB and TV Recharge sections.
-
+                The selected plan's price will be saved as the customer's
+                monthly amount. The STB connection will also be created.
             </div>
 
-
-            <!-- ACTIONS -->
-
             <div class="form-actions">
-
-                <a
-                    href="{{ url_for('customers') }}"
-                    class="btn btn-secondary"
-                >
+                <a href="{{ url_for('customers') }}" class="btn btn-secondary">
                     Cancel
                 </a>
 
                 <button
                     type="submit"
                     class="btn btn-primary"
+                    {% if not plans %}disabled{% endif %}
                 >
                     ➕ Add Customer
                 </button>
-
             </div>
 
         </form>
-
     </div>
-
 </div>
 
-
 <script>
-
-    /* ================= THEME ================= */
-
+    // THEME
     function toggleTheme() {
-
         document.body.classList.toggle("dark");
 
-        const isDark =
-            document.body.classList.contains("dark");
-
+        const isDark = document.body.classList.contains("dark");
         localStorage.setItem("darkMode", isDark);
 
         document.getElementById("themeBtn").textContent =
             isDark ? "☀️" : "🌙";
     }
 
-
     if (localStorage.getItem("darkMode") === "true") {
-
         document.body.classList.add("dark");
-
         document.getElementById("themeBtn").textContent = "☀️";
     }
 
-
-    /* ================= SIDEBAR ================= */
-
+    // SIDEBAR
     function openSidebar() {
-
-        document.getElementById("sidebar")
-            .classList.add("open");
-
-        document.getElementById("overlay")
-            .classList.add("show");
+        document.getElementById("sidebar").classList.add("open");
+        document.getElementById("overlay").classList.add("show");
     }
-
 
     function closeSidebar() {
-
-        document.getElementById("sidebar")
-            .classList.remove("open");
-
-        document.getElementById("overlay")
-            .classList.remove("show");
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("overlay").classList.remove("show");
     }
 
+    // LOCAL DATE
+    const dateInput = document.getElementById("connection_start_date");
 
-    /* ================= DEFAULT DATE ================= */
+    if (!dateInput.value) {
+        const now = new Date();
+        const localDate = new Date(
+            now.getTime() - now.getTimezoneOffset() * 60000
+        ).toISOString().split("T")[0];
 
-    const today =
-        new Date().toISOString().split("T")[0];
+        dateInput.value = localDate;
+    }
 
-    document.getElementById(
-        "connection_start_date"
-    ).value = today;
+    // MOBILE INPUT
+    document.getElementById("mobile").addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, "").slice(0, 10);
+    });
 
+    // AUTOMATIC PLAN AMOUNT
+    const planSelect = document.getElementById("plan_id");
+    const amountInput = document.getElementById("monthly_amount");
 
-    /* ================= MOBILE VALIDATION ================= */
+    function updatePlanAmount() {
+        const selectedOption = planSelect.options[planSelect.selectedIndex];
 
-    document.getElementById("mobile")
-        .addEventListener("input", function() {
+        if (selectedOption && selectedOption.dataset.amount) {
+            amountInput.value = selectedOption.dataset.amount;
+        } else {
+            amountInput.value = "";
+        }
+    }
 
-            this.value =
-                this.value.replace(/\D/g, "");
+    planSelect.addEventListener("change", updatePlanAmount);
 
-        });
+    // Ensure the price is shown if a plan is selected after validation.
+    updatePlanAmount();
 
-
-    /* ================= STB VALIDATION ================= */
-
-    document.getElementById("stb_number")
-        .addEventListener("input", function() {
-
-            this.value =
-                this.value.trim();
-
-        });
-
-
-    /* ================= FORM VALIDATION ================= */
-
+    // FORM VALIDATION
     function validateForm() {
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const mobile =
-            document.getElementById("mobile").value.trim();
-
-        const stb =
-            document.getElementById("stb_number").value.trim();
-
-        const amount =
-            document.getElementById("monthly_amount").value;
+        const name = document.getElementById("name").value.trim();
+        const mobile = document.getElementById("mobile").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const stb = document.getElementById("stb_number").value.trim();
+        const planId = planSelect.value;
+        const amount = amountInput.value;
 
         if (name.length < 2) {
-
             alert("Please enter a valid customer name.");
-
             return false;
         }
-
 
         if (!/^[0-9]{10}$/.test(mobile)) {
-
-            alert(
-                "Please enter a valid 10-digit mobile number."
-            );
-
+            alert("Please enter a valid 10-digit mobile number.");
             return false;
         }
 
-
-        if (stb.length === 0) {
-
-            alert("Please enter the STB number.");
-
+        if (!address || address.length > 500) {
+            alert("Please enter a valid customer address.");
             return false;
         }
 
-
-        if (!amount || Number(amount) <= 0) {
-
-            alert(
-                "Please enter a valid monthly amount."
-            );
-
+        if (!stb || stb.length > 50) {
+            alert("Please enter a valid STB number.");
             return false;
         }
 
+        if (!planId || !amount || Number(amount) <= 0) {
+            alert("Please select a valid TV plan.");
+            return false;
+        }
 
         return true;
     }
-
 </script>
 
 </body>
